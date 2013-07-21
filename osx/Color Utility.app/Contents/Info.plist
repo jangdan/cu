@@ -5,9 +5,9 @@
 	<key>CFBundleName</key>
 	<string>Color Utility</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.leocarbonate.cu.ColorUtility</string>
+	<string>com.leocarbonate.cu</string>
 	<key>CFBundleVersion</key>
-	<string>0.b2.0.0</string>
+	<string>0.b2.1.0</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<string>true</string>
 	<key>CFBundleExecutable</key>
@@ -29,7 +29,7 @@
 		<key>JVMVersion</key>
 		<string>1.5+</string>
 		<key>ClassPath</key>
-			<string>$JAVAROOT/Color_Utility.jar</string>
+			<string>$JAVAROOT/cu0200.jar</string>
 	</dict>
 </dict>
 </plist>
