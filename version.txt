@@ -1,0 +1,40 @@
+Color Utility
+
+version.txt
+
+
+
+BETA
+0.b2.1.0 (7.21.13)
+	- Windows flaw fixed 
+	- Temporarily disabled changing look and feel
+
+0.b2.0.0 (7.20.13)
+	- Ready for Beta teasing
+	- 한국 정보올림피아드 공모전 출전
+	- Built Color Uility.app for Mac OS X
+	- removed com.mkyong.core.OSValidator.java and added custom OSValidator code to
+		com.leocarbonate.cu.utilites.OSValidator.java
+	- created com.leocarbonate.cu.models for com.leocarbonate.cu.ColorUtility.ccc's AbstractColorChooserPanels
+	- com.leocarbonate.cu.utilities.Functions.java for miscellaneous functions
+
+	- GUI structure is now JTabbedPane
+	- About pane inspired by Color Mixer [https://github.com/leocarbon/cm]
+	- Settings pane - will be updated
+
+
+ALPHA
+0.a1.1.1 (7.15.13)
+	- Java Example added as 'components.FileChooserDemo2Project'
+	- mkyong.com OSValidator added
+	- ActionHandler.java
+	- DigitalEyedropper extends SwingWorker
+	- Added Look&Feel Editing
+	- EasyView inspired by ColorMixer [https://github.com/leocarbon/cm]
+	- Average Color [http://stackoverflow.com/a/12408627/2580875]
+
+0.a1.1.0
+	- Basic Color Chooser with JColorChooser
+	- Borders for JPanels
+	- DigitalEyedropper from Digital.Eyedropper
+		- Not working yet
