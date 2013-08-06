@@ -49,7 +49,8 @@ public class Easyview extends JLabel{
                 ||(b <= 64 && r == 0 && g == 0)
                 ||(r <= 64 && g <= 64 && b == 0)
                 ||(g <= 64 && b <= 64 && r == 0)
-                ||(b <= 64 && r <= 64 && g == 0)){
+                ||(b <= 64 && r <= 64 && g == 0)
+                ||(r <= 32 && b <=32 && g <= 32)){
             ColorUtility.evr.setForeground(Color.WHITE);
             ColorUtility.evg.setForeground(Color.WHITE);
             ColorUtility.evb.setForeground(Color.WHITE);

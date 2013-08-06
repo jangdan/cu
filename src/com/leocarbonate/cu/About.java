@@ -24,7 +24,7 @@ public class About extends JPanel{
                 + "<br><br>Color Utility is licensed under a "
                 + "<br><b>Creative Commons Attribution-NonCommercial 3.0 Unported license</b>"
                 + "<br>which is good I guess"
-                + "<br><br>v 0.b2.0.0"
+                + "<br><br>v 0.b2.2.0"
                 + "<br><br> https://github.com/leocarbon/cu"
                 + "<br><br> http://leocarbonate.com"
                 + "</html>");

@@ -6,6 +6,7 @@ import com.leocarbonate.cu.models.DigitalEyedropper;
 import com.leocarbonate.cu.models.InvertColor;
 import com.leocarbonate.cu.models.RandomColor;
 import com.leocarbonate.cu.models.ScrollColor;
+import com.leocarbonate.cu.utilities.OSValidator;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,6 +15,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
@@ -21,6 +24,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -56,6 +61,21 @@ public class ColorUtility{
     final static boolean RIGHT_TO_LEFT = false;
     
     public ColorUtility() throws AWTException, InterruptedException{
+        if(OSValidator.isWindows()){
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
+            }catch (ClassNotFoundException ex){
+                Logger.getLogger(ColorUtility.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (InstantiationException  ex){
+                Logger.getLogger(ColorUtility.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (IllegalAccessException ex){
+                Logger.getLogger(ColorUtility.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (UnsupportedLookAndFeelException ex){
+                Logger.getLogger(ColorUtility.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
         //Initialize GridBagConstraints
         GridBagConstraints c = new GridBagConstraints();
         if (RIGHT_TO_LEFT) {
@@ -86,7 +106,6 @@ public class ColorUtility{
         
         //Add plafComponents
         
-        /* Temporarily disabled
         LookAndFeel plafComponents = new LookAndFeel();
         c.gridx = 1;
         c.gridy = 0;
@@ -95,7 +114,6 @@ public class ColorUtility{
         c.weightx = 0.2;
         c.weighty = 0.2;
         options.add(plafComponents,c);
-        */
         
         //ColorChooser (JColorChooser)
         cmtoggle = new JCheckBox("Color Mixer",true);

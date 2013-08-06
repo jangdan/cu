@@ -1,9 +1,12 @@
 package com.leocarbonate.cu;
 
+import com.leocarbonate.cu.utilities.OSValidator;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -19,7 +22,9 @@ import javax.swing.event.ChangeListener;
 
 public class LookAndFeel extends JPanel{
     public LookAndFeel(){
+        /* Under construction
         this.setLayout(new GridLayout(2,0));
+        
         Border plafBorder = BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Look and Feel");
         this.setBorder(plafBorder);
@@ -38,7 +43,9 @@ public class LookAndFeel extends JPanel{
         this.add(brightness);
         final JLabel brightnessLabel = new JLabel("Window Background Color: ",JLabel.CENTER);
         
+        
         plafChooser.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 int index = plafChooser.getSelectedIndex();
                 try{
@@ -51,6 +58,7 @@ public class LookAndFeel extends JPanel{
                 }
             }
         });
+        
         brightness.addChangeListener(new ChangeListener(){
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -58,5 +66,6 @@ public class LookAndFeel extends JPanel{
                ColorUtility.frame.setBackground(new Color(brightness.getValue(),brightness.getValue(),brightness.getValue()));
             }
         });
+        * */
     }
 }
