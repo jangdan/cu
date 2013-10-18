@@ -5,6 +5,17 @@ version.txt
 
 
 BETA
+0.b3.0.0 (8.18.13)
+	- Changed some names
+	- Disabled locking of panel visibility
+		- For future full-screen function
+	- Easy View color data value (a.k.a. 'text') visibility toggle
+
+	- Added background color changing slider for contrast on some grayscale colors displayed on Easy View
+
+	- Sliders in Color Fading [models.ScrollColor.java] have ticks for accurate values
+
+
 0.b2.2.0 (8.6.13)
 	- Fixed minor color displaying flaw
 
