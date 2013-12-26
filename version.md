@@ -1,10 +1,12 @@
 Color Utility
+===========
 
-version.txt
+*version.txt*
 
 
 
 BETA
+--------------
 0.b3.0.0 (8.18.13)
 	- Changed some names
 	- Disabled locking of panel visibility
@@ -38,6 +40,7 @@ BETA
 
 
 ALPHA
+--------------
 0.a1.1.1 (7.15.13)
 	- Java Example added as 'components.FileChooserDemo2Project'
 	- mkyong.com OSValidator added
