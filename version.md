@@ -5,8 +5,15 @@ Color Utility
 
 
 
-BETA
+Beta
 --------------
+0.b3.1.1 (1.19.14)
+	- Updated About.java
+
+0.b3.1.0 (1.15.14)
+	- org.apache.log4j for logging
+	
+
 0.b3.0.0 (8.18.13)
 	- Changed some names
 	- Disabled locking of panel visibility
@@ -14,6 +21,7 @@ BETA
 	- Easy View color data value (a.k.a. 'text') visibility toggle
 
 	- Added background color changing slider for contrast on some grayscale colors displayed on Easy View
+	- Added Toning Colors [com.leocarbonate.cu.models.ToneColor.java]
 
 	- Sliders in Color Fading [models.ScrollColor.java] have ticks for accurate values
 
@@ -39,7 +47,7 @@ BETA
 	- Settings pane - will be updated
 
 
-ALPHA
+Alpha
 --------------
 0.a1.1.1 (7.15.13)
 	- Java Example added as 'components.FileChooserDemo2Project'
