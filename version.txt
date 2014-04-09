@@ -1,12 +1,8 @@
 Color Utility
-===========
 
-*version.txt*
-
-
+version.txt
 
 Beta
---------------
 0.b3.1.1 (1.19.14)
 	- Updated About.java
 
@@ -48,7 +44,6 @@ Beta
 
 
 Alpha
---------------
 0.a1.1.1 (7.15.13)
 	- Java Example added as 'components.FileChooserDemo2Project'
 	- mkyong.com OSValidator added
