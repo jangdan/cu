@@ -30,7 +30,7 @@ public class About extends JFrame {
                 + "<br>It might have some bugs... It's not perfect. "
                 + "<br>Just send me some screenshots and information,"
                 + "<br>and I'll try to fix it. "
-                + "<br><br>v 0.b4.0.0"
+                + "<br><br>v 0.γ5.0.1"
                 + "<br><br>https://github.com/leocarbon/cu"
                 + "<br><br>http://leocarbon.github.io"
                 + "</html>");
