@@ -1,7 +1,6 @@
-package com.leocarbonate.cu.models;
+package leocarbon.cu.modules;
 
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+import static leocarbon.cu.ColorUtility.CU;
+import leocarbon.cu.GUI;
+import org.apache.log4j.Logger;
 
 public class RandomColor extends AbstractColorChooserPanel implements ActionListener{
     JButton random;
@@ -24,10 +26,6 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
     
     int r, g, b;
     
-    final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
-    final static boolean RIGHT_TO_LEFT = false;
-    
     @Override
     public void updateChooser() {
         
@@ -35,13 +33,7 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = new GridBagConstraints();
-        if (RIGHT_TO_LEFT) {
-            randomPanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
-        if(shouldFill) {
-            c.fill = GridBagConstraints.BOTH;
-        }
+        GridBagConstraints c = GUI.initGridBagConstraints();
         
         randomPanel = new JPanel(new GridBagLayout());
         //scrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Scroll Color"));
@@ -55,7 +47,7 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
         c.gridheight = 1;
         randomPanel.add(random,c);
         
-        randomSeed = new JTextField("Random seed?", 16);
+        randomSeed = new JTextField("Seed here!", 16);
         randomSeed.setActionCommand("seed");
         randomSeed.addActionListener(this);
         randomSeed.selectAll();
@@ -100,31 +92,35 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        r = com.leocarbonate.cu.ColorUtility.cc.getColor().getRed();
-        g = com.leocarbonate.cu.ColorUtility.cc.getColor().getGreen();
-        b = com.leocarbonate.cu.ColorUtility.cc.getColor().getBlue();
+        r = CU.cc.getColor().getRed();
+        g = CU.cc.getColor().getGreen();
+        b = CU.cc.getColor().getBlue();
         
         randomGenerator = new Random();
         if("random".equals(e.getActionCommand())){
-            System.out.print("Requested random color: ");
+            Logger.getLogger(RandomColor.class.getName()).trace("Requested random color: ");
             
-             com.leocarbonate.cu.ColorUtility.cc.setColor(new Color((randomGenerator.nextInt(255)),randomGenerator.nextInt(255),randomGenerator.nextInt(255)));
+             CU.cc.setColor(new Color((randomGenerator.nextInt(255)),randomGenerator.nextInt(255),randomGenerator.nextInt(255)));
             
-            System.out.println("Done");
+            Logger.getLogger(RandomColor.class.getName()).trace("Done");
         } else if("seed".equals(e.getActionCommand())){
             if("random".equals(randomSeed.getText())){
                 long l = randomGenerator.nextLong();
                 randomGenerator.setSeed(l);
                 currentRandomSeed.setText("Current seed: " + l);
-                System.out.println("Set seed to: " + l);
-            } else{
+                Logger.getLogger(RandomColor.class.getName()).trace("Set seed to: " + l);
+            } else if(randomSeed.getText().matches("[0-9]+")){
+                randomGenerator.setSeed(Long.parseLong(randomSeed.getText()));
+                currentRandomSeed.setText("Current seed: " + Long.parseLong(randomSeed.getText()));
+                Logger.getLogger(RandomColor.class.getName()).info("Set seed to: " + Long.parseLong(randomSeed.getText()));
+            } else {
                 randomGenerator.setSeed(toAscii(randomSeed.getText()));
                 currentRandomSeed.setText("Current seed: " + toAscii(randomSeed.getText()));
-                System.out.println("Set seed to: " + toAscii(randomSeed.getText()));
+                Logger.getLogger(RandomColor.class.getName()).info("Set seed to: " + toAscii(randomSeed.getText()));
             }
         }
     }
-    public static long toAscii(String s){
+    public static long toAscii(String s) {
         StringBuilder sb = new StringBuilder();
         String ascString = null;
         long asciiInt;

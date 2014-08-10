@@ -3,13 +3,23 @@ Color Utility
 version.txt
 
 Beta
+0.b5.0.0 (8.10.14)
+	- New GUI layout.
+	- Slight code optimisation and tidying
+		- Removed unnecessary files (/components/)
+	- The menu bar now works!
+		- Next update will rework the options menu.
+	- Getting ready for internationalisation.
+
+0.b4.0.0 (?.??.14)
+	- I don’t know.
+
 0.b3.1.1 (1.19.14)
 	- Updated About.java
 
 0.b3.1.0 (1.15.14)
 	- org.apache.log4j for logging
 	
-
 0.b3.0.0 (8.18.13)
 	- Changed some names
 	- Disabled locking of panel visibility
@@ -21,7 +31,6 @@ Beta
 
 	- Sliders in Color Fading [models.ScrollColor.java] have ticks for accurate values
 
-
 0.b2.2.0 (8.6.13)
 	- Fixed minor color displaying flaw
 
@@ -30,7 +39,7 @@ Beta
 	- Temporarily disabled changing look and feel
 
 0.b2.0.0 (7.20.13)
-	- Ready for Beta teasing
+	- Ready for Beta testing
 	- 한국 정보올림피아드 공모전 출전
 	- Built Color Uility.app for Mac OS X
 	- removed com.mkyong.core.OSValidator.java and added custom OSValidator code to

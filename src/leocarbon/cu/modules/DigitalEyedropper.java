@@ -1,10 +1,7 @@
-package com.leocarbonate.cu.models;
+package leocarbon.cu.modules;
 
-import com.leocarbonate.cu.ColorUtility;
-import com.leocarbonate.cu.utilities.ActionHandler;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.MouseInfo;
 import java.awt.Robot;
@@ -16,9 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.GUI.initGridBagConstraints;
+import org.apache.log4j.Logger;
 
-public class DigitalEyedropper extends AbstractColorChooserPanel implements ActionListener{
-    public static JToggleButton deyedstart;
+public class DigitalEyedropper extends AbstractColorChooserPanel implements ActionListener {
+    public JToggleButton deyedstart;
     
     int x,y;
     pickJob jp;
@@ -43,15 +43,7 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
 
     @Override
     protected void buildChooser() {
-        //Initialize GridBagConstraints
-        GridBagConstraints c = new GridBagConstraints();
-        if (RIGHT_TO_LEFT) {
-            ColorUtility.evpanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-            ColorUtility.pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
-        if(shouldFill) {
-            c.fill = GridBagConstraints.BOTH;
-        }
+        GridBagConstraints c = initGridBagConstraints();
         
         deyedstart = new JToggleButton("Start DigitalEyedropper");
         deyedstart.addActionListener(this);
@@ -78,33 +70,35 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae){
-        if(DigitalEyedropper.deyedstart.isSelected()){
+    public void actionPerformed(ActionEvent AE) {
+        if(deyedstart.isSelected()){
             (jp = new pickJob()).execute();
-            System.out.println("DigitalEyedropper initialized.");
-        } else{
+            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper initialized.");
+        } else {
             jp.cancel(true);
             jp = null;
-            System.out.println("DigitalEyedropper deinitialized.");
+            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper deinitialized.");
         }
     }
     
-    public class pickJob extends SwingWorker<Integer, Integer>{
+    public class pickJob extends SwingWorker<Integer, Integer> {
         Color color;
         Robot picker;
         int intColor;
+        
         @Override
         protected Integer doInBackground() throws Exception {
             intColor = 0;
             picker = new Robot();
-            while (!isCancelled()) {
+            while (!isCancelled()){
                 intColor = getColor();
                 publish(intColor);
             }
             return intColor;
         }
+        @Override
         protected void process(List<Integer> i) {
-            ColorUtility.cc.setColor(intColor);
+            CU.cc.setColor(intColor);
         }
 
         public int getColor() {

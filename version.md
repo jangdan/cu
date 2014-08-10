@@ -38,6 +38,17 @@ version.md
 
 Beta
 --------------
+######0.b5.0.0 (8.10.14)
+* New GUI layout.
+* Slight code optimisation and tidying
+	* Removed unnecessary files (/components/)
+* The menu bar now works!
+	* Next update will rework the options menu.
+* Getting ready for internationalisation.
+
+######0.b4.0.0 (?.??.14)
+* I don't know.
+
 ######0.b3.1.1 (1.19.14)
 * Updated About.java
 

@@ -1,8 +1,6 @@
-package com.leocarbonate.cu.models;
+package leocarbon.cu.modules;
 
-import com.leocarbonate.cu.ColorUtility;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -11,17 +9,16 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+import static leocarbon.cu.ColorUtility.CU;
+import leocarbon.cu.GUI;
+import org.apache.log4j.Logger;
 
-public class InvertColor extends AbstractColorChooserPanel implements ActionListener{
+public class InvertColor extends AbstractColorChooserPanel implements ActionListener {
     JButton invert;
     JButton rinvert, ginvert, binvert;
     JPanel invertPanel;
     
     int r, g, b;
-    
-    final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
-    final static boolean RIGHT_TO_LEFT = false;
     
     @Override
     public void updateChooser() {
@@ -30,13 +27,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = new GridBagConstraints();
-        if (RIGHT_TO_LEFT) {
-            invertPanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
-        if(shouldFill) {
-            c.fill = GridBagConstraints.BOTH;
-        }
+        GridBagConstraints c = GUI.initGridBagConstraints();
         
         invertPanel = new JPanel(new GridBagLayout());
         //invertPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Invert"));
@@ -96,34 +87,34 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        r = ColorUtility.cc.getColor().getRed();
-        g = ColorUtility.cc.getColor().getGreen();
-        b = ColorUtility.cc.getColor().getBlue();
-        if("invert".equals(e.getActionCommand())){
-            System.out.print("Requested invertion of color: ");
+    public void actionPerformed(ActionEvent AE) {
+        r = CU.cc.getColor().getRed();
+        g = CU.cc.getColor().getGreen();
+        b = CU.cc.getColor().getBlue();
+        if("invert".equals(AE.getActionCommand())){
+            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of color: ");
             
-            ColorUtility.cc.setColor(new Color(255 - r, 255 - g, 255 - b));
+            CU.cc.setColor(new Color(255 - r, 255 - g, 255 - b));
             
-            System.out.println("Done");
-        } else if("rinvert".equals(e.getActionCommand())){
-            System.out.print("Requested invertion of red: ");
+            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+        } else if("rinvert".equals(AE.getActionCommand())){
+            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of red: ");
             
-            ColorUtility.cc.setColor(new Color(255 - r, g, b));
+            CU.cc.setColor(new Color(255 - r, g, b));
             
-            System.out.println("Done");
-        } else if("ginvert".equals(e.getActionCommand())){
-            System.out.print("Requested invertion of green: ");
+            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+        } else if("ginvert".equals(AE.getActionCommand())){
+            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of green: ");
             
-            ColorUtility.cc.setColor(new Color(r, 255 - g, b));
+            CU.cc.setColor(new Color(r, 255 - g, b));
             
-            System.out.println("Done");
-        } else if("binvert".equals(e.getActionCommand())){
-            System.out.print("Requested invertion of blue: ");
+            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+        } else if("binvert".equals(AE.getActionCommand())){
+            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of blue: ");
             
-            ColorUtility.cc.setColor(new Color(r, g, 255 - b));
+            CU.cc.setColor(new Color(r, g, 255 - b));
             
-            System.out.println("Done");
+            Logger.getLogger(InvertColor.class.getName()).trace("Done");
         }
     }
     
