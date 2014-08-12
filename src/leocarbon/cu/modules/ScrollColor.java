@@ -14,7 +14,8 @@ import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.RB;
+import static leocarbon.cu.ColorUtility.cc;
 import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
@@ -52,7 +53,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         scrollPanel = new JPanel(new GridBagLayout());
         //scrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Scroll Color"));
         
-        scroll = new JToggleButton("Scroll color");
+        scroll = new JToggleButton(RB.getString("SC.start.hue"));
         scroll.setActionCommand("hscroll");
         scroll.addActionListener(this);
         c.gridx = 0;
@@ -61,7 +62,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         c.gridheight = 1;
         scrollPanel.add(scroll,c);
         
-        brightnessScroll = new JToggleButton("Scroll brightness");
+        brightnessScroll = new JToggleButton(RB.getString("SC.start.brightness"));
         brightnessScroll.setActionCommand("bscroll");
         brightnessScroll.addActionListener(this);
         c.gridx = 0;
@@ -71,7 +72,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         scrollPanel.add(brightnessScroll,c);
         brightnessScroll.setEnabled(false); //Doesn't function as expected
         
-        saturationScroll = new JToggleButton("Scroll saturation");
+        saturationScroll = new JToggleButton(RB.getString("SC.start.saturation"));
         saturationScroll.setActionCommand("sscroll");
         saturationScroll.addActionListener(this);
         c.gridx = 0;
@@ -124,7 +125,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     public String getDisplayName() {
-        return "Color Fading";
+        return RB.getString("SC");
     }
 
     @Override
@@ -140,18 +141,16 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
     @Override
     public void actionPerformed(ActionEvent AE) {
          if("hscroll".equals(AE.getActionCommand())){
-            Logger.getLogger(ScrollColor.class.getName()).trace("Requested scrolling of color: ");
-         
+            Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has started");
             if(scroll.isSelected()){
                 (job = new scrolljob()).execute();
             } else {
                 job.cancel(true);
                 job = null;
             }
-            Logger.getLogger(ScrollColor.class.getName()).trace("Done");
+            Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has ended");
         }  else if("bscroll".equals(AE.getActionCommand())){
-            Logger.getLogger(ScrollColor.class.getName()).trace("Requested scrolling of brightness: ");
-         
+            Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has started");
             if(brightnessScroll.isSelected()){
                 (bjob = new bscrolljob()).execute();
                 saturationScroll.setEnabled(false);
@@ -160,9 +159,9 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
                 bjob = null;
                 saturationScroll.setEnabled(true);
             }
-            Logger.getLogger(ScrollColor.class.getName()).trace("Done");
+            Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has ended");
         } else if("sscroll".equals(AE.getActionCommand())){
-            Logger.getLogger(ScrollColor.class.getName()).trace("Requested scrolling of saturation: ");
+            Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has started");
          
             if(saturationScroll.isSelected()){
                 (sjob = new sscrolljob()).execute();
@@ -172,7 +171,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
                 sjob = null;
                 brightnessScroll.setEnabled(true);
             }
-            Logger.getLogger(ScrollColor.class.getName()).trace("Done");
+            Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has ended");
         }
         brightnessScroll.setEnabled(false); //Doesn't function as expected
     }
@@ -198,7 +197,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         protected Integer doInBackground() throws Exception {
             int i = 0;
             while (!isCancelled()) {
-                i = getColor(CU.cc.getColor());
+                i = getColor(cc.getColor());
                 publish(i);
                 Thread.sleep(hdelay);
             }
@@ -206,7 +205,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         }
         @Override
         protected void process(List<Integer> i) {
-            CU.cc.setColor(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+            cc.setColor(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
         }
 
         public int getColor(Color currentColor) {
@@ -226,7 +225,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         protected Integer doInBackground() throws Exception {
             int i = 0;
             while (!isCancelled()) {
-                i = getColor(CU.cc.getColor());
+                i = getColor(cc.getColor());
                 publish(i);
                 Thread.sleep(bdelay);
             }
@@ -234,7 +233,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         }
         @Override
         protected void process(List<Integer> i) {
-            CU.cc.setColor(Color.HSBtoRGB(bhsb[0], bhsb[1], bhsb[2]));
+            cc.setColor(Color.HSBtoRGB(bhsb[0], bhsb[1], bhsb[2]));
         }
 
         public int getColor(Color currentColor) {
@@ -254,7 +253,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         protected Integer doInBackground() throws Exception {
             int i = 0;
             while (!isCancelled()) {
-                i = getColor(CU.cc.getColor());
+                i = getColor(cc.getColor());
                 publish(i);
                 Thread.sleep(sdelay);
             }
@@ -262,7 +261,7 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         }
         @Override
         protected void process(List<Integer> i) {
-            CU.cc.setColor(Color.HSBtoRGB(shsb[0], shsb[1], shsb[2]));
+            cc.setColor(Color.HSBtoRGB(shsb[0], shsb[1], shsb[2]));
         }
 
         public int getColor(Color currentColor) {

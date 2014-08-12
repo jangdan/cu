@@ -9,7 +9,8 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.RB;
+import static leocarbon.cu.ColorUtility.cc;
 import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
@@ -32,7 +33,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
         invertPanel = new JPanel(new GridBagLayout());
         //invertPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Invert"));
         
-        invert = new JButton("Invert Color");
+        invert = new JButton(RB.getString("IC.invert"));
         invert.setActionCommand("invert");
         invert.addActionListener(this);
         c.gridx = 0;
@@ -41,7 +42,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
         c.gridheight = 3;
         invertPanel.add(invert,c);
         
-        rinvert = new JButton("Invert Red");
+        rinvert = new JButton(RB.getString("IC.rinvert"));
         rinvert.setActionCommand("rinvert");
         rinvert.addActionListener(this);
         c.gridx = 1;
@@ -50,7 +51,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
         c.gridheight = 1;
         invertPanel.add(rinvert,c);
         
-        ginvert = new JButton("Invert Green");
+        ginvert = new JButton(RB.getString("IC.ginvert"));
         ginvert.setActionCommand("ginvert");
         ginvert.addActionListener(this);
         c.gridx = 1;
@@ -59,7 +60,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
         c.gridheight = 1;
         invertPanel.add(ginvert,c);
         
-        binvert = new JButton("Invert Blue");
+        binvert = new JButton(RB.getString("IC.binvert"));
         binvert.setActionCommand("binvert");
         binvert.addActionListener(this);
         c.gridx = 1;
@@ -73,7 +74,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     public String getDisplayName() {
-        return "Invert Color";
+        return RB.getString("IC");
     }
 
     @Override
@@ -88,33 +89,21 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     public void actionPerformed(ActionEvent AE) {
-        r = CU.cc.getColor().getRed();
-        g = CU.cc.getColor().getGreen();
-        b = CU.cc.getColor().getBlue();
+        r = cc.getColor().getRed();
+        g = cc.getColor().getGreen();
+        b = cc.getColor().getBlue();
         if("invert".equals(AE.getActionCommand())){
-            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of color: ");
-            
-            CU.cc.setColor(new Color(255 - r, 255 - g, 255 - b));
-            
-            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+            cc.setColor(new Color(255 - r, 255 - g, 255 - b));
+            Logger.getLogger(InvertColor.class.getName()).trace("Inverted Color");
         } else if("rinvert".equals(AE.getActionCommand())){
-            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of red: ");
-            
-            CU.cc.setColor(new Color(255 - r, g, b));
-            
-            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+            cc.setColor(new Color(255 - r, g, b));
+            Logger.getLogger(InvertColor.class.getName()).trace("Inverted red channel");
         } else if("ginvert".equals(AE.getActionCommand())){
-            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of green: ");
-            
-            CU.cc.setColor(new Color(r, 255 - g, b));
-            
-            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+            cc.setColor(new Color(r, 255 - g, b));
+            Logger.getLogger(InvertColor.class.getName()).trace("Inverted green channel");
         } else if("binvert".equals(AE.getActionCommand())){
-            Logger.getLogger(InvertColor.class.getName()).trace("Requested invertion of blue: ");
-            
-            CU.cc.setColor(new Color(r, g, 255 - b));
-            
-            Logger.getLogger(InvertColor.class.getName()).trace("Done");
+            cc.setColor(new Color(r, g, 255 - b));
+            Logger.getLogger(InvertColor.class.getName()).trace("Inverted blue channel");
         }
     }
     

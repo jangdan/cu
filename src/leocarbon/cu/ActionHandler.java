@@ -1,4 +1,4 @@
-package leocarbon.cu.handlers;
+package leocarbon.cu;
 
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -16,28 +16,19 @@ import javax.swing.JPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import leocarbon.cu.About;
-import leocarbon.cu.ColorUtility;
 import static leocarbon.cu.ColorUtility.A;
 import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.Ev;
 import static leocarbon.cu.ColorUtility.cc;
-import leocarbon.cu.Easyview;
-import leocarbon.cu.Options;
 import org.apache.log4j.Logger;
 
-public class ActionHandler implements ActionListener{
+public class ActionHandler implements ActionListener {
     public static ActionHandler ActionListener = new ActionHandler();
     
     public static JFrame about, preferences;
     
     public static boolean isEasyViewTextVisible = true;
     
-    public static String[] EditmenuitemNames = {
-                    "Copy Hex Value", "Copy AHex Value", "Copy RGB Value", "Copy RGBA Value", "Paste", "/", "Undo", "Redo", "/", 
-                    "Invert RGB", "Invert Red", "Invert Green", "Invert Blue", "/", 
-                    "Brighten", "Darken"
-    };
-            
     public static void createController(final JPanel inpanel, final JCheckBox input){
         input.addActionListener(new ActionListener(){
             @Override
@@ -62,6 +53,7 @@ public class ActionHandler implements ActionListener{
                         System.out.println("cmtogggle Disabled");
                     }
                      */
+                    System.out.println();
                     CU.pack();
                 }
             }
@@ -73,13 +65,8 @@ public class ActionHandler implements ActionListener{
         ChangeListener changeListener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent CE) {
-                Easyview.updateEv(cc.getColor());
-                if(model.getSelectedColor().getAlpha() != 255){
-                    model.setSelectedColor(new Color(model.getSelectedColor().getRed(),
-                            model.getSelectedColor().getGreen(),
-                            model.getSelectedColor().getBlue(),
-                            255));
-                }
+                if(Easyview.Opaque && model.getSelectedColor().getAlpha() != 255) Ev.update(new Color(model.getSelectedColor().getRed(),model.getSelectedColor().getGreen(),model.getSelectedColor().getBlue(),255));
+                else Ev.update(new Color(model.getSelectedColor().getRed(),model.getSelectedColor().getGreen(),model.getSelectedColor().getBlue(),model.getSelectedColor().getAlpha()));
             }
         };
         model.addChangeListener(changeListener);
@@ -90,13 +77,11 @@ public class ActionHandler implements ActionListener{
             public void actionPerformed(ActionEvent AE){
                 if(input.isSelected()){
                     isEasyViewTextVisible = true;
-                    System.out.println("Set Easy View color value visibility to true");
-                    Easyview.updateEv(cc.getColor());
+                    Ev.update(cc.getColor());
                 }
                 else{
                     isEasyViewTextVisible = false;
-                    System.out.println("Set Easy View color value visibility to false");
-                    Easyview.updateEv(cc.getColor());
+                    Ev.update(cc.getColor());
                 }
             }
         });
@@ -114,22 +99,33 @@ public class ActionHandler implements ActionListener{
             } else if("Edit".equals(description[0])){
                 if(description[2].equals("Copy Hex Value")){
                     copytoClipboard(Easyview.hex);
+                    Logger.getLogger(ActionHandler.class).info("Copied Hex Color "+Easyview.hex);
                 } else if(description[2].equals("Copy AHex Value")){
-                    copytoClipboard(Easyview.ahex);
+                    copytoClipboard("0x"+Easyview.ahex);
+                    Logger.getLogger(ActionHandler.class).info("Copied AHex Color "+"0x"+Easyview.ahex);
                 } else if(description[2].equals("Copy RGB Value")){
                     copytoClipboard(Easyview.rgb);
+                    Logger.getLogger(ActionHandler.class).info("Copied RGB Color "+Easyview.rgb);
                 } else if(description[2].equals("Copy RGBA Value")){
                     copytoClipboard(Easyview.rgba);
+                    Logger.getLogger(ActionHandler.class).info("Copied RGBA Color "+Easyview.rgba);
                 } else if(description[2].equals("Paste Hex Value")){
                     String phex = pastefromClipboard();
-                    System.out.println(phex);
                     if(!phex.startsWith("#")) phex = "#".concat(phex);
                     cc.setColor(Color.decode(phex));
+                    Logger.getLogger(ActionHandler.class).info("Pasted Hex Color "+phex);
                 } else if(description[2].equals("Paste AHex Value")){
+                    String pahex = pastefromClipboard();
+                    if(pahex.startsWith("0x")) pahex = pahex.substring(2);
+                    Color C = new Color(Integer.parseInt(pahex,16));
+                    cc.setColor(C);
+                    Logger.getLogger(ActionHandler.class).info("Pasted AHex Color "+pahex);
                 } else if(description[2].equals("Paste RGB Value")){
+                    Logger.getLogger(ActionHandler.class).info("Pasted RGB Color ");
                 } else if(description[2].equals("Paste RGBA Value")){
                     String prgba = pastefromClipboard();
                     cc.setColor(new Color(Integer.parseInt(prgba)));
+                    Logger.getLogger(ActionHandler.class).info("Pasted RGBA Color "+prgba);
                 } else if(description[2].equals("Undo")){
 
                 } else if(description[2].equals("Redo")){
@@ -174,7 +170,7 @@ public class ActionHandler implements ActionListener{
                     copytoClipboard(Easyview.rgba);
                 } else if(description[2].equals("Paste Hex Value")){
                     String phex = pastefromClipboard();
-                    System.out.println(phex);
+                    Logger.getLogger(ActionHandler.class).info("Pasted Hex Color "+phex);
                     if(!phex.startsWith("#")) phex = "#".concat(phex);
                     cc.setColor(Color.decode(phex));
                 }

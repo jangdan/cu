@@ -14,6 +14,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.GUI.initGridBagConstraints;
 import org.apache.log4j.Logger;
 
@@ -45,7 +46,7 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
     protected void buildChooser() {
         GridBagConstraints c = initGridBagConstraints();
         
-        deyedstart = new JToggleButton("Start DigitalEyedropper");
+        deyedstart = new JToggleButton(RB.getString("DEyed.start"));
         deyedstart.addActionListener(this);
         JPanel deyed = new JPanel();
         
@@ -56,7 +57,7 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
 
     @Override
     public String getDisplayName() {
-        return "Eyedropper";
+        return RB.getString("DEyed");
     }
 
     @Override
@@ -73,11 +74,11 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
     public void actionPerformed(ActionEvent AE) {
         if(deyedstart.isSelected()){
             (jp = new pickJob()).execute();
-            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper initialized.");
+            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper has started");
         } else {
             jp.cancel(true);
             jp = null;
-            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper deinitialized.");
+            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper has stopped");
         }
     }
     

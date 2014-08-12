@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
 import org.apache.log4j.Logger;
 
@@ -24,7 +25,7 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
     long pixelCount = 0;
     public static AverageColor ac;
             
-    public final JButton averageStart = new JButton("Choose Image");
+    public final JButton averageStart = new JButton(RB.getString("AC.start"));
     
     public AverageColor() {
         averageStart.addActionListener(this);
@@ -60,7 +61,7 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
     }
     
     protected BufferedImage getImage() {
-        FileDialog chooser = new FileDialog(new JFrame(), "Choose an image file", FileDialog.LOAD);
+        FileDialog chooser = new FileDialog(new JFrame(), RB.getString("AC.FileDialog.title"), FileDialog.LOAD);
         chooser.setFile("*.jpg; *.bmp; *.jpeg; *.wbmp; *.png; *.gif");
         chooser.setVisible(true);
         String path = chooser.getFile();
@@ -71,7 +72,7 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
             img = ImageIO.read(f);
         } catch (IOException IOE) {
             Logger.getLogger(AverageColor.class.getName()).trace(IOE);
-            Logger.getLogger(AverageColor.class.getName()).info("ImageIO couldn't read the image. Are you sure you selected an image?");
+            Logger.getLogger(AverageColor.class.getName()).trace("ImageIO couldn't load the image.");
         }
         return img;
     }
@@ -88,7 +89,7 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
 
     @Override
     public String getDisplayName() {
-        return "Average";
+        return RB.getString("AC");
     }
 
     @Override
