@@ -3,16 +3,24 @@ Color Utility
 version.txt
 
 Gamma(γ)
+0.γ5.1.0 (8.11~12.14)
+	- More Copy/Paste functions.
+	- Easyview is now a separate Object!
+	- Localization for American English and Korean (translator volunteers welcome!)
+		- Changed some names and made logging less hard on the way
+	- Background color changing is back! (Thanks to 843806(https://community.oracle.com/people/843806?customTheme=otn): https://community.oracle.com/thread/1354255?start=0&tstart=0
+		- I really works now!
+
 0.γ5.0.1 (8.10.14)
 	- I’ve decided to use Gamma(γ), the Greek alphabet next to Beta(β). I also added some Greek characters instead of the plain old 'a' and 'b.'
 
 0.γ5.0.0
 	- New GUI layout.
-	- Slight code optimisation and tidying
+	- Slight code optimization and tidying
 		- Removed unnecessary files (/components/)
 	- The menu bar now works!
 		- Next update will rework the options menu.
-	- Getting ready for internationalisation.
+	- Getting ready for internationalization.
 
 Beta(β)
 0.β4.0.0 (?.??.14)

@@ -1,7 +1,6 @@
 package leocarbon.cu;
 
 import java.awt.Font;
-import leocarbon.cu.handlers.ActionHandler;
 import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import javax.swing.JMenu;

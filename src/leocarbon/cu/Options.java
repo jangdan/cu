@@ -5,6 +5,8 @@
 package leocarbon.cu;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -26,7 +28,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import static leocarbon.cu.ColorUtility.CU;
-import leocarbon.cu.handlers.ActionHandler;
+import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.ccc;
 import org.apache.log4j.Logger;
 
 /**
@@ -34,12 +37,28 @@ import org.apache.log4j.Logger;
  * @author Leocarbon
  */
 public class Options extends JFrame {
+    
+    /* Funciton by 843806: https://community.oracle.com/thread/1354255?start=0&tstart=0
+     * I modified it a bit.
+     */
+    private static void changeBackGround(Container iC, Color Background) {
+     iC.setBackground(Background);
+     for(Component C : iC.getComponents()){
+          if(C instanceof Container
+          &&!(C instanceof javax.swing.JTextField)
+          &&!(C instanceof javax.swing.JSpinner)
+          &&!(C instanceof javax.swing.JTabbedPane)) changeBackGround((Container)C, Background);
+     }
+}
+
+//... then call the method with color chooser as the parameter
+
     public static JPanel newBrightnessController() {
         GridBagConstraints c = GUI.initGridBagConstraints();
         
         JPanel brightnessPanel = new JPanel(new GridBagLayout());
         
-        final JLabel Displaybrightness = new JLabel("Current brightness: 232");
+        final JLabel Displaybrightness = new JLabel("Current brightness: "+UIManager.getColor("Panel.background").getRed());
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
@@ -47,8 +66,7 @@ public class Options extends JFrame {
         c.weightx = 0.09;
         c.weighty = 0.09;
         brightnessPanel.add(Displaybrightness,c);
-        
-        final JSlider brightness = new JSlider(91,255,232);
+        final JSlider brightness = new JSlider(91,255,UIManager.getColor("Panel.background").getRed());
         //brightness.setMajorTickSpacing(24);
         brightness.setMinorTickSpacing(41);
         brightness.setPaintTicks(true);
@@ -56,9 +74,19 @@ public class Options extends JFrame {
         brightness.addChangeListener(new ChangeListener(){
             @Override
             public void stateChanged(ChangeEvent CE) {
-                System.out.println("Changed background color to: " + brightness.getValue());
+                Logger.getLogger(Options.class).trace("Changed background color to: " + brightness.getValue());
                 Displaybrightness.setText("Current brightness: " + brightness.getValue());
-                CU.setBackground(new Color(brightness.getValue(),brightness.getValue(),brightness.getValue()));
+                Color Background = new Color(brightness.getValue(),brightness.getValue(),brightness.getValue());
+                CU.getContentPane().setBackground(Background);
+                /*
+                cc.setBackground(Background);
+                cc.getParent().setBackground(Background);
+                ccc.setBackground(Background);
+                cc.setForeground(Background);
+                ccc.getParent().setBackground(Background);
+                ccc.setForeground(Background);*/
+                changeBackGround(cc.getParent(), UIManager.getColor("Panel.background"));
+                changeBackGround(ccc.getParent(), UIManager.getColor("Panel.background"));
             }
         });
         c.gridx = 0;
@@ -73,7 +101,7 @@ public class Options extends JFrame {
         brightnessReset.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent AE){
-                brightness.setValue(232);
+                brightness.setValue(UIManager.getColor("Panel.background").getRed());
             }
         });
         c.gridx = 1;
@@ -192,6 +220,7 @@ public class Options extends JFrame {
         //Initialize GridBagConstraints
         GridBagConstraints c = GUI.initGridBagConstraints();
 
+        
         //Add plafComponents
         c.gridx = 1;
         c.gridy = 0;
@@ -210,6 +239,10 @@ public class Options extends JFrame {
         c.ipadx = 20;
         c.ipady = 20;
         add(visibility(),c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        add(newBrightnessController(),c);
         
         setAlwaysOnTop(true);
         pack();

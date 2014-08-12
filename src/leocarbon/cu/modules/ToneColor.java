@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.RB;
+import static leocarbon.cu.ColorUtility.cc;
 import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
@@ -29,13 +31,13 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
         TonePanel = new JPanel(new GridBagLayout());
         //TonePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Tone Color"));
         
-        Lighten = new JButton("Brighten color");
+        Lighten = new JButton(RB.getString("TC.brighten"));
         Lighten.setActionCommand("lighten");
         Lighten.addActionListener(this);
         c.gridy = 1;
         TonePanel.add(Lighten,c);
         
-        Darken = new JButton("Darken color");
+        Darken = new JButton(RB.getString("TC.darken"));
         Darken.setActionCommand("darken");
         Darken.addActionListener(this);
         c.gridy = 0;
@@ -46,7 +48,7 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
 
     @Override
     public String getDisplayName() {
-        return "Color Toner";
+        return RB.getString("TC");
     }
 
     @Override
@@ -61,18 +63,12 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent AE) {
-         if("darken".equals(AE.getActionCommand())){
-            Logger.getLogger(ToneColor.class.getName()).trace("Requested darkening of color: ");
-         
-            CU.cc.setColor(CU.cc.getColor().darker());
-            
-            Logger.getLogger(ToneColor.class.getName()).trace("Done");
-        }  else if("lighten".equals(AE.getActionCommand())){
-            Logger.getLogger(ToneColor.class.getName()).trace("Requested brightening of color: ");
-         
-            CU.cc.setColor(CU.cc.getColor().brighter());
-            
-            Logger.getLogger(ToneColor.class.getName()).trace("Done");
+        if("lighten".equals(AE.getActionCommand())){
+            cc.setColor(cc.getColor().brighter());
+            Logger.getLogger(ToneColor.class.getName()).trace("Brightened color");
+        } else if("darken".equals(AE.getActionCommand())){
+            cc.setColor(cc.getColor().darker());
+            Logger.getLogger(ToneColor.class.getName()).trace("Darkened color");
         }
     }
 }
