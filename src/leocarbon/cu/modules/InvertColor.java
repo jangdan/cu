@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
-import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
 public class InvertColor extends AbstractColorChooserPanel implements ActionListener {
@@ -28,7 +27,8 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = GUI.initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         invertPanel = new JPanel(new GridBagLayout());
         //invertPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Invert"));

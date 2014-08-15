@@ -160,20 +160,7 @@ public class ActionHandler implements ActionListener {
                     }
                 }
             } else if("Window".equals(description[0])){
-                if(description[2].equals("Copy Hex Value")){
-                    copytoClipboard(Easyview.hex);
-                } else if(description[2].equals("Copy AHex Value")){
-                    copytoClipboard(Easyview.ahex);
-                } else if(description[2].equals("Copy RGB Value")){
-                    copytoClipboard(Easyview.rgb);
-                } else if(description[2].equals("Copy RGBA Value")){
-                    copytoClipboard(Easyview.rgba);
-                } else if(description[2].equals("Paste Hex Value")){
-                    String phex = pastefromClipboard();
-                    Logger.getLogger(ActionHandler.class).info("Pasted Hex Color "+phex);
-                    if(!phex.startsWith("#")) phex = "#".concat(phex);
-                    cc.setColor(Color.decode(phex));
-                }
+                
             } else if("Help".equals(description[0])){
                 if(description[2].equals("About")){
                     A = new About();

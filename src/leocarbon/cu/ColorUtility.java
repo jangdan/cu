@@ -1,12 +1,13 @@
 package leocarbon.cu;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
 import java.util.Random;
@@ -21,25 +22,23 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import static leocarbon.cu.GUI.constructFonts;
-import static leocarbon.cu.GUI.createmenu;
-import static leocarbon.cu.GUI.initGridBagConstraints;
 import leocarbon.cu.modules.AverageColor;
 import leocarbon.cu.modules.DigitalEyedropper;
 import leocarbon.cu.modules.InvertColor;
 import leocarbon.cu.modules.RandomColor;
 import leocarbon.cu.modules.ScrollColor;
 import leocarbon.cu.modules.ToneColor;
-import leocarbon.cu.system.GetOSName;
-import leocarbon.cu.system.MacOSXHandler;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.simplericity.macify.eawt.Application;
+import org.simplericity.macify.eawt.ApplicationEvent;
+import org.simplericity.macify.eawt.ApplicationListener;
 import org.simplericity.macify.eawt.DefaultApplication;
 
 public class ColorUtility extends JFrame {
@@ -50,6 +49,8 @@ public class ColorUtility extends JFrame {
     public static Options O;
     
     public static ResourceBundle RB = ResourceBundle.getBundle("leocarbon.cu.language.locale", Locale.getDefault());
+    
+    //<editor-fold defaultstate="collapsed" desc="Menu bar">
     //Menu bar
     public static JMenuBar menubar;
     public static JMenu menu;
@@ -57,38 +58,41 @@ public class ColorUtility extends JFrame {
         "File", "Edit", "Modules", "Window", "Help"
     };
     public static JMenuItem menuitem;
-        public static String[] FilemenuitemNames = {
-            "Options"
-        }; int[] FilemenuitemAccelerators = {
-            KeyEvent.VK_O
-        };
-        public static String[] EditmenuitemNames = {
-           "Copy Hex Value", "Copy AHex Value", /*"Copy RGB Value", */"Copy RGBA Value", "/", "Paste Hex Value", "Paste AHex Value",/* "Paste RGB Value", */"Paste RGBA Value", "/", "Undo", "Redo", "/", 
-            "Invert RGB", "Invert Red", "Invert Green", "Invert Blue", "/", 
-            "Brighten", "Darken"
-        }; int[] EditmenuitemAccelerators = {
-            KeyEvent.VK_C, -1, -1, -1, KeyEvent.VK_V, -1, -1, -1, KeyEvent.VK_Z, KeyEvent.VK_Y, -1,
-            KeyEvent.VK_I, -1, -1, -1, -1,
-            KeyEvent.VK_B, KeyEvent.VK_D
-        };
-        public static String[] ModulesmenuitemNames = {
-        }; int[] ModulesmenuitemAccelerators = {
-            KeyEvent.VK_A, KeyEvent.VK_E,KeyEvent.VK_R, KeyEvent.VK_S
-        };
-        public static String[] WindowmenuitemNames = {
-            "Color Mixer", "Color Functions", "EasyView", "/", "Reset Windows"
-        }; int[] WindowmenuitemAccelerators = {
-            KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, -1, -1
-        };
-        public static String[] HelpmenuitemNames = {
-            "About"
-        }; int[] HelpmenuitemAccelerators = {
-            KeyEvent.VK_0
-        };
+    public static String[] FilemenuitemNames = {
+        "Options"
+    }; int[] FilemenuitemAccelerators = {
+        KeyEvent.VK_O
+    };
+    public static String[] EditmenuitemNames = {
+        "Copy Hex Value", "Copy AHex Value", /*"Copy RGB Value", */"Copy RGBA Value", "/", "Paste Hex Value", "Paste AHex Value",/* "Paste RGB Value", */"Paste RGBA Value", "/", "Undo", "Redo", "/",
+        "Invert RGB", "Invert Red", "Invert Green", "Invert Blue", "/",
+        "Brighten", "Darken"
+    }; int[] EditmenuitemAccelerators = {
+        KeyEvent.VK_C, -1, -1, -1, KeyEvent.VK_V, -1, -1, -1, KeyEvent.VK_Z, KeyEvent.VK_Y, -1,
+        KeyEvent.VK_I, -1, -1, -1, -1,
+        KeyEvent.VK_B, KeyEvent.VK_D
+    };
+    public static String[] ModulesmenuitemNames = {
+    }; int[] ModulesmenuitemAccelerators = {
+        KeyEvent.VK_A, KeyEvent.VK_E,KeyEvent.VK_R, KeyEvent.VK_S
+    };
+    public static String[] WindowmenuitemNames = {
+        "Color Mixer", "Color Functions", "EasyView", "/", "Reset Windows"
+    }; int[] WindowmenuitemAccelerators = {
+        KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, -1, -1
+    };
+    public static String[] HelpmenuitemNames = {
+        "About"
+    }; int[] HelpmenuitemAccelerators = {
+        KeyEvent.VK_0
+    };
+//</editor-fold>
     public static JRadioButtonMenuItem rbmenuitem;
     public static JCheckBoxMenuItem cbmenuitem;
     
-    //Global objects
+    
+    public static Font Monaco18 = new Font("Monaco", Font.PLAIN, 18);
+        
     public static JColorChooser cc;
     public JCheckBox cmtoggle;
     
@@ -105,21 +109,28 @@ public class ColorUtility extends JFrame {
     public AverageColor AC = new AverageColor();
     public ToneColor TC = new ToneColor();
         
-    public static void main(String[] args) throws AWTException, InterruptedException {
-        if("mac".equals(GetOSName.formatted())){
-            Application macinstance = new DefaultApplication();
-            MacOSCU = macinstance;
-            
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
+    public static String OSname;
+    public static void getOSname(){
+        OSname = System.getProperty("os.name").toLowerCase();
+        if(OSname.contains("win")) OSname = "win";
+        else if(OSname.contains("mac")) OSname = "mac";
+    }
+    
+    public static void main(String[] args) {
+        getOSname();
+        if("mac".equals(OSname)){
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Color Utility");
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
+        
         CU = new ColorUtility();
     } public ColorUtility() {
         //Configure the logger (Apache log4j)
-        PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/config/log4j.properties"));
+        PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/logging/log4j.properties"));
         Logger.getLogger(ColorUtility.class.getName()).trace("rootlogger configured");
         
         Logger.getLogger(ColorUtility.class.getName()).trace("Operating System: " + System.getProperty("os.name"));
+        Logger.getLogger(ColorUtility.class.getName()).trace("ColorUtility.OSname: " + OSname);
         Logger.getLogger(ColorUtility.class.getName()).trace("Java vendor: " + System.getProperty("java.vendor"));
         Logger.getLogger(ColorUtility.class.getName()).trace("Java vendor URL: ["+System.getProperty("java.vendor.url")+"]");
         Logger.getLogger(ColorUtility.class.getName()).trace("Java version: " + System.getProperty("java.version"));
@@ -144,20 +155,17 @@ public class ColorUtility extends JFrame {
         }
         
         //Extra implementations for Mac OS
-        if("mac".equals(GetOSName.formatted())){
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Color Utility");
-     
+        if("mac".equals(OSname)){
+            MacOSCU = new DefaultApplication();
             MacOSCU.addApplicationListener(new MacOSXHandler());
             MacOSCU.addPreferencesMenuItem();
             MacOSCU.setEnabledPreferencesMenu(true);
             Logger.getLogger(ColorUtility.class.getName()).trace("Optimized GUI for Mac OS");
         }
         
-        constructFonts();
-        
         //Initialize GridBagConstraints
-        GridBagConstraints c = initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         //Initialize the window
         setTitle(RB.getString("CU.Title"));
@@ -197,7 +205,6 @@ public class ColorUtility extends JFrame {
         ccm.setBorder(ccmborder);
         c.gridy = 2;
         add(ccm,c);
-
         
         //Easyview
         evtoggle = new JCheckBox(RB.getString("CU.ev"),true);
@@ -241,10 +248,49 @@ public class ColorUtility extends JFrame {
         setJMenuBar(menubar);
 
         pack();
-        //setMinimumSize(this.getSize());
         setLocationRelativeTo(null);
         setVisible(true);
-        //setResizable(false);
+        setResizable(false);
+        setMaximumSize(this.getSize());
+        
         Logger.getLogger(ColorUtility.class.getName()).trace("Finished creating GUI");
-    } 
+    }
+    
+    public static JMenu createmenu(String description, String[] menuitemNames, int[] accelerator) {
+        for(int a = 0; a < menuitemNames.length; ++a){
+            if("/".equals(menuitemNames[a])) menu.addSeparator();
+            else {
+                menuitem = new JMenuItem(menuitemNames[a]);
+                if(accelerator[a] == -1){
+                    menuitem.setAccelerator(null);
+                } else {
+                    menuitem.setAccelerator(KeyStroke.getKeyStroke(accelerator[a], Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                }
+                menuitem.addActionListener(ActionHandler.ActionListener);
+                menuitem.setActionCommand(description+".menu."+menuitemNames[a]);
+                menu.add(menuitem);
+            }
+        }
+        menu.getAccessibleContext().setAccessibleDescription(description);
+        
+        return menu;
+    }
+    
+    
+    public class MacOSXHandler implements ApplicationListener {
+        @Override
+        public void handleAbout(ApplicationEvent AE) {
+            A = new About();
+        }
+        @Override
+        public void handlePreferences(ApplicationEvent AE) {
+            O = new Options();
+        }
+        @Override
+        public void handleOpenApplication(ApplicationEvent AE) {} @Override
+        public void handleOpenFile(ApplicationEvent AE) {} @Override
+        public void handlePrintFile(ApplicationEvent AE) {} @Override
+        public void handleQuit(ApplicationEvent AE) {} @Override
+        public void handleReOpenApplication(ApplicationEvent AE) {}
+    }
 }

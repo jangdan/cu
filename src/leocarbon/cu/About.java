@@ -7,9 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.Monaco18;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
-import static leocarbon.cu.GUI.Monaco18;
 
 public class About extends JFrame {
     JLabel story;

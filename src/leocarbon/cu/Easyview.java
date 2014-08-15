@@ -7,8 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import static leocarbon.cu.ColorUtility.A;
-import static leocarbon.cu.GUI.Monaco18;
-import static leocarbon.cu.GUI.initGridBagConstraints;
+import static leocarbon.cu.ColorUtility.Monaco18;
 
 public class Easyview extends JPanel {
     public static JLabel evr = new JLabel("Loading...",JLabel.CENTER);
@@ -28,10 +27,17 @@ public class Easyview extends JPanel {
         g = input.getGreen();
         b = input.getBlue();
         a = input.getAlpha();
+        System.out.println(input + " " + a);
         
-        hex = Integer.toHexString(input.getRGB());
-        hex = hex.substring(2, hex.length()).toUpperCase();
-        ahex = Integer.toHexString(input.getRGB()).toUpperCase();
+        ahex = Integer.toHexString(input.hashCode()).toUpperCase();
+        if(ahex.length() < 8){
+            String ahexbuffer = ahex;
+            for(a = ahex.length(), ahex = ""; a < 8; ++a){
+                ahex = ahex.concat("0");
+            }
+            ahex = ahex.concat(ahexbuffer);
+        }
+        hex = ahex.substring(2);
         
         rgba = Integer.toString(input.getRGB());
         
@@ -53,6 +59,8 @@ public class Easyview extends JPanel {
         setBackground(input);
         
         //set Foreground(text) Color
+        //<editor-fold defaultstate="collapsed" desc="old setForeground color algorithm">
+        /*
         if(r >= 192 || g >= 192 || b >= 192 ){
             evr.setForeground(input.darker().darker().darker());
             evg.setForeground(input.darker().darker().darker());
@@ -79,6 +87,14 @@ public class Easyview extends JPanel {
             evh.setForeground(input.brighter().brighter().brighter());
             evha.setForeground(input.brighter().brighter().brighter());
         }
+        */
+        //</editor-fold>
+        if((r <= 136 && r >= 120)&&(g <= 136 && g >= 120)&&(b <= 136 && b >= 120)
+        ||((r <= 136 && r >= 120)&&(g <= 136 && g >= 120))&&(b <= 255 && b >= 64)
+        ||((r <= 136 && r >= 120)&&(b <= 136 && b >= 120))&&(g <= 192 && g >= 64)
+        ||((g <= 136 && g >= 120)&&(b <= 136 && b >= 120))&&(r <= 192 && r >= 64)) setForeground(new Color(255));
+        else if(!(r <= 136 && r >= 120)||!(g <= 136 && g >= 120)||!(b <= 136 && b >= 120)) setForeground(new Color(255-r,255-g,255-b));
+        
         if(A != null && A.isVisible()){
             SwingUtilities.invokeLater(new Runnable() { @Override public void run() {
                 A.setColors();
@@ -90,7 +106,8 @@ public class Easyview extends JPanel {
         setOpaque(true);
         setLayout(new GridBagLayout());
         
-        GridBagConstraints c = initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         evr.setFont(Monaco18);
         evr.setOpaque(Opaque);
@@ -133,5 +150,13 @@ public class Easyview extends JPanel {
         c.weightx = 0.8;
         c.weighty = 0.8;
         add(evha,c);
+    }
+    @Override
+    public void setForeground(Color Foreground) {
+        evr.setForeground(Foreground);
+        evg.setForeground(Foreground);
+        evb.setForeground(Foreground);
+        evh.setForeground(Foreground);
+        evha.setForeground(Foreground);
     }
 }

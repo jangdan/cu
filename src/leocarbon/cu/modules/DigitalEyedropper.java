@@ -15,7 +15,6 @@ import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.CU;
 import static leocarbon.cu.ColorUtility.RB;
-import static leocarbon.cu.GUI.initGridBagConstraints;
 import org.apache.log4j.Logger;
 
 public class DigitalEyedropper extends AbstractColorChooserPanel implements ActionListener {
@@ -44,7 +43,8 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         deyedstart = new JToggleButton(RB.getString("DEyed.start"));
         deyedstart.addActionListener(this);

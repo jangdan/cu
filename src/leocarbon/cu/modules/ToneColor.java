@@ -8,10 +8,8 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import static leocarbon.cu.ColorUtility.CU;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
-import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
 public class ToneColor extends AbstractColorChooserPanel implements ActionListener{
@@ -26,7 +24,8 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = GUI.initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         TonePanel = new JPanel(new GridBagLayout());
         //TonePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Tone Color"));

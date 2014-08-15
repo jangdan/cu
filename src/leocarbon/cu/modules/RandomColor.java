@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+import static leocarbon.cu.ColorUtility.Ev;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
-import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
 public class RandomColor extends AbstractColorChooserPanel implements ActionListener{
@@ -34,7 +34,8 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = GUI.initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         randomPanel = new JPanel(new GridBagLayout());
         //scrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Scroll Color"));
@@ -99,7 +100,7 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
         
         randomGenerator = new Random();
         if("random".equals(e.getActionCommand())){
-             cc.setColor(new Color((randomGenerator.nextInt(255)),randomGenerator.nextInt(255),randomGenerator.nextInt(255)));
+             cc.setColor(new Color((randomGenerator.nextInt(255)),randomGenerator.nextInt(255),randomGenerator.nextInt(255),Ev.a));
             Logger.getLogger(RandomColor.class.getName()).trace("Randomized Color");
         } else if("seed".equals(e.getActionCommand())){
             if("random".equals(randomSeed.getText())){

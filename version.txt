@@ -3,6 +3,14 @@ Color Utility
 version.txt
 
 Gamma(γ)
+0.γ5.2.0 (8.15.14)
+	- Organized classes
+	- Reintroduced old Easyview foreground color setting algorithm
+	- Options fix
+		- Background color changing is now finished (But maybe some more bugs)
+		- Component visibility settings fixed
+	- Can’t resize program window anymore... (will be able to in the future)
+
 0.γ5.1.0 (8.11~12.14)
 	- More Copy/Paste functions.
 	- Easyview is now a separate Object!

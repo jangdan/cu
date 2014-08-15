@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import static leocarbon.cu.ColorUtility.CU;
@@ -38,7 +39,7 @@ import org.apache.log4j.Logger;
  */
 public class Options extends JFrame {
     
-    /* Funciton by 843806: https://community.oracle.com/thread/1354255?start=0&tstart=0
+    /* Funciton by 843806(https://community.oracle.com/people/843806?customTheme=otn): https://community.oracle.com/thread/1354255?start=0&tstart=0
      * I modified it a bit.
      */
     private static void changeBackGround(Container iC, Color Background) {
@@ -46,15 +47,15 @@ public class Options extends JFrame {
      for(Component C : iC.getComponents()){
           if(C instanceof Container
           &&!(C instanceof javax.swing.JTextField)
-          &&!(C instanceof javax.swing.JSpinner)
-          &&!(C instanceof javax.swing.JTabbedPane)) changeBackGround((Container)C, Background);
+          &&!(C instanceof javax.swing.JSpinner)) changeBackGround((Container)C, Background);
      }
 }
 
 //... then call the method with color chooser as the parameter
 
     public static JPanel newBrightnessController() {
-        GridBagConstraints c = GUI.initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         JPanel brightnessPanel = new JPanel(new GridBagLayout());
         
@@ -67,8 +68,7 @@ public class Options extends JFrame {
         c.weighty = 0.09;
         brightnessPanel.add(Displaybrightness,c);
         final JSlider brightness = new JSlider(91,255,UIManager.getColor("Panel.background").getRed());
-        //brightness.setMajorTickSpacing(24);
-        brightness.setMinorTickSpacing(41);
+        brightness.setMajorTickSpacing(41);
         brightness.setPaintTicks(true);
         brightness.setPaintLabels(true);
         brightness.addChangeListener(new ChangeListener(){
@@ -78,15 +78,8 @@ public class Options extends JFrame {
                 Displaybrightness.setText("Current brightness: " + brightness.getValue());
                 Color Background = new Color(brightness.getValue(),brightness.getValue(),brightness.getValue());
                 CU.getContentPane().setBackground(Background);
-                /*
-                cc.setBackground(Background);
-                cc.getParent().setBackground(Background);
-                ccc.setBackground(Background);
-                cc.setForeground(Background);
-                ccc.getParent().setBackground(Background);
-                ccc.setForeground(Background);*/
-                changeBackGround(cc.getParent(), UIManager.getColor("Panel.background"));
-                changeBackGround(ccc.getParent(), UIManager.getColor("Panel.background"));
+                changeBackGround(cc.getParent(), Background);
+                changeBackGround(ccc.getParent(), Background);
             }
         });
         c.gridx = 0;
@@ -218,7 +211,9 @@ public class Options extends JFrame {
         setTitle("Color Utility Options");
         setLayout(new GridBagLayout());
         //Initialize GridBagConstraints
-        GridBagConstraints c = GUI.initGridBagConstraints();
+        
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
 
         
         //Add plafComponents

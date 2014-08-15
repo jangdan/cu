@@ -16,7 +16,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
-import leocarbon.cu.GUI;
 import org.apache.log4j.Logger;
 
 public class ScrollColor extends AbstractColorChooserPanel implements ActionListener, ChangeListener{
@@ -48,7 +47,8 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
 
     @Override
     protected void buildChooser() {
-        GridBagConstraints c = GUI.initGridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         
         scrollPanel = new JPanel(new GridBagLayout());
         //scrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Scroll Color"));
