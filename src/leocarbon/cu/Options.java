@@ -24,11 +24,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.Ev;
+import static leocarbon.cu.ColorUtility.O;
+import static leocarbon.cu.ColorUtility.OptionsLAFChange;
+import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
 import static leocarbon.cu.ColorUtility.ccc;
 import org.apache.log4j.Logger;
@@ -37,211 +40,228 @@ import org.apache.log4j.Logger;
  *
  * @author Leocarbon
  */
-public class Options extends JFrame {
-    
-    /* Funciton by 843806(https://community.oracle.com/people/843806?customTheme=otn): https://community.oracle.com/thread/1354255?start=0&tstart=0
-     * I modified it a bit.
-     */
-    private static void changeBackGround(Container iC, Color Background) {
-     iC.setBackground(Background);
-     for(Component C : iC.getComponents()){
-          if(C instanceof Container
-          &&!(C instanceof javax.swing.JTextField)
-          &&!(C instanceof javax.swing.JSpinner)) changeBackGround((Container)C, Background);
-     }
-}
-
-//... then call the method with color chooser as the parameter
-
-    public static JPanel newBrightnessController() {
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        
-        JPanel brightnessPanel = new JPanel(new GridBagLayout());
-        
-        final JLabel Displaybrightness = new JLabel("Current brightness: "+UIManager.getColor("Panel.background").getRed());
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0.09;
-        c.weighty = 0.09;
-        brightnessPanel.add(Displaybrightness,c);
-        final JSlider brightness = new JSlider(91,255,UIManager.getColor("Panel.background").getRed());
-        brightness.setMajorTickSpacing(41);
-        brightness.setPaintTicks(true);
-        brightness.setPaintLabels(true);
-        brightness.addChangeListener(new ChangeListener(){
-            @Override
-            public void stateChanged(ChangeEvent CE) {
-                Logger.getLogger(Options.class).trace("Changed background color to: " + brightness.getValue());
-                Displaybrightness.setText("Current brightness: " + brightness.getValue());
-                Color Background = new Color(brightness.getValue(),brightness.getValue(),brightness.getValue());
-                CU.getContentPane().setBackground(Background);
-                changeBackGround(cc.getParent(), Background);
-                changeBackGround(ccc.getParent(), Background);
-            }
-        });
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.weightx = 1;
-        c.weighty = 1;
-        brightnessPanel.add(brightness,c);
-        
-        JButton brightnessReset = new JButton("Reset background color");
-        brightnessReset.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent AE){
-                brightness.setValue(UIManager.getColor("Panel.background").getRed());
-            }
-        });
-        c.gridx = 1;
-        c.gridy = 2;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0.09;
-        c.weighty = 0.09;
-        brightnessPanel.add(brightnessReset,c);
-        
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.weightx = 0.1;
-        c.weighty = 0.1;
-        brightnessPanel.add(new JLabel("<html><font color = 'red'><b>Note: </b></font><i>This function might not work for some Look and Feels.</i></html>"),c);
-        Border brightnessBorder = BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Background");
-        brightnessPanel.setBorder(brightnessBorder);
-        
-        return brightnessPanel; 
-    }
-    
-    public static JPanel visibility(){
+public class Options extends JFrame implements ActionListener {
+    JCheckBox texttoggle;
+    private class Visibility extends JPanel { private Visibility() {
         Border controlborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Component Visibility");
-        final JPanel controls = new JPanel(new GridLayout(0,1));
-        controls.setBorder(controlborder);
+        setBorder(controlborder);
+        
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
         
         JPanel ccmpanel = new JPanel();
         ccmpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Color Functions"));
         ccmpanel.add(CU.ccmtoggle);
-        controls.add(ccmpanel);
-        
-        JPanel evpanel = new JPanel();
+        c.gridx = 0; c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(ccmpanel,c);
+
+        JPanel evpanel = new JPanel(new GridBagLayout());
         evpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Easy View"));
+        c.fill = GridBagConstraints.NONE;
+        evpanel.add(CU.evtoggle,c);
         
-        evpanel.add(CU.evtoggle);
+        texttoggle = new JCheckBox("Show Color Values", true);
+        texttoggle.addActionListener(O);
+        texttoggle.setActionCommand("Ev");
+        c.gridy = 1;
+        evpanel.add(texttoggle,c);
         
-        JCheckBox texttoggle = new JCheckBox("Show Color Values", true);
-        ActionHandler.createEasyViewTextController(texttoggle);
-        evpanel.add(texttoggle);
+        JPanel Evtoggle = new JPanel(new GridBagLayout()); {
+            JCheckBox Redtoggle = new JCheckBox("Red", true);
+            c.gridx = 0; c.gridy = 0;
+            Evtoggle.add(Redtoggle,c);
+            
+            JCheckBox Greentoggle = new JCheckBox("Show Color Values", true);
+            JCheckBox Bluetoggle = new JCheckBox("Show Color Values", true);
+            JCheckBox Hextoggle = new JCheckBox("Show Color Values", true);
+            JCheckBox aHextoggle = new JCheckBox("Show Color Values", true);
+        }
+        c.gridy = 2;
+        evpanel.add(Evtoggle,c);
         
-        controls.add(evpanel);
-        
+        c.gridx = 0; c.gridy = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(evpanel,c);
+
         JPanel cmpanel = new JPanel();
         cmpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Color Picker"));
         cmpanel.add(CU.cmtoggle);
-        controls.add(cmpanel);
+        c.gridx = 0; c.gridy = 2;
+        add(cmpanel,c);
+    }}
+    private class Logging extends JPanel { public Logging() {
         
-        return controls;
+    }}
+    private class Background extends JPanel {
+        /* Funciton by 843806(https://community.oracle.com/people/843806?customTheme=otn): https://community.oracle.com/thread/1354255?start=0&tstart=0
+         * I modified it a bit.
+         */ private void changeBackGround(Container iC, Color Background) {
+            iC.setBackground(Background);
+            for(Component C : iC.getComponents()){
+                if(C instanceof Container
+                &&!(C instanceof javax.swing.JTextField)
+                &&!(C instanceof javax.swing.JSpinner)) changeBackGround((Container)C, Background);
+            }
+        } public Background() {
+            setLayout(new GridBagLayout());
+
+            GridBagConstraints c = new GridBagConstraints();
+            //c.fill = GridBagConstraints.BOTH;
+
+            final JLabel Displaybrightness = new JLabel("Current brightness: "+UIManager.getColor("Panel.background").getRed());
+            c.gridx = 0;
+            c.gridy = 2;
+            c.gridwidth = 1;
+            c.gridheight = 1;
+            c.weightx = 0.09;
+            c.weighty = 0.09;
+            add(Displaybrightness,c);
+            final JSlider brightness = new JSlider(91,255,UIManager.getColor("Panel.background").getRed());
+            brightness.setMajorTickSpacing(41);
+            brightness.setPaintTicks(true);
+            brightness.setPaintLabels(true);
+            brightness.addChangeListener((ChangeEvent CE) -> {
+                Displaybrightness.setText("Current brightness: " + brightness.getValue());
+                Color Background1 = new Color(brightness.getValue(),brightness.getValue(),brightness.getValue());
+                CU.getContentPane().setBackground(Background1);
+                changeBackGround(cc.getParent(), Background1);
+                changeBackGround(ccc.getParent(), Background1);
+                if(!brightness.getValueIsAdjusting()) Logger.getLogger(Options.class).trace("Changed brightness to: " + brightness.getValue());
+            });
+            c.gridx = 0;
+            c.gridy = 1;
+            c.gridwidth = 2;
+            c.gridheight = 1;
+            c.weightx = 1;
+            c.weighty = 1;
+            add(brightness,c);
+
+            JButton brightnessReset = new JButton("Reset background color");
+            brightnessReset.addActionListener((ActionEvent AE) -> {
+                brightness.setValue(UIManager.getColor("Panel.background").getRed());
+            });
+            c.gridx = 1;
+            c.gridy = 2;
+            c.gridwidth = 1;
+            c.gridheight = 1;
+            c.weightx = 0.09;
+            c.weighty = 0.09;
+            add(brightnessReset,c);
+
+            c.gridx = 0;
+            c.gridy = 0;
+            c.gridwidth = 2;
+            c.gridheight = 1;
+            c.weightx = 0.1;
+            c.weighty = 0.1;
+            //add(new JLabel("<html><font color = 'red'><b>Note: </b></font><i>This function might not work for some Look and Feels.</i></html>"),c);
+            Border brightnessBorder = BorderFactory.createTitledBorder(
+                    BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Background");
+            setBorder(brightnessBorder);
+        }
     }
-    
-    public static JPanel LookAndFeel(){
-        JPanel LAF = new JPanel();
-        LAF.setLayout(new GridLayout(2,0));
-        
+    private static class LookAndFeel extends JPanel { public LookAndFeel() {
+        setLayout(new GridLayout(2,0));
+
         Border plafBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Look and Feel");
-        LAF.setBorder(plafBorder);
-        
+        setBorder(plafBorder);
+
         final UIManager.LookAndFeelInfo[] ILAFs = UIManager.getInstalledLookAndFeels();
         String[] ILAFNames = new String[ILAFs.length];
-        
+
         for(int a = 0; a < ILAFs.length; ++a) ILAFNames[a] = ILAFs[a].getName();
         final JComboBox LAFJC = new JComboBox(ILAFNames);
-        
-        LAF.add(LAFJC);
-        
+
+        add(LAFJC);
+
         final JCheckBox pack = new JCheckBox("JFrame.pack() on change", true);
-        LAF.add(pack);
-        
-        LAFJC.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent AE) {
-                int index = LAFJC.getSelectedIndex();
-                try {
-                    UIManager.setLookAndFeel(ILAFs[index].getClassName());
-                    SwingUtilities.updateComponentTreeUI(CU);
-                    
-                    CU.setVisible(false);
-                    CU.dispose();
-                    CU = null;
-                    System.gc();
-                    
-                    ColorUtility.CU = new ColorUtility();
-                    if(pack.isSelected()) CU.pack();
-                    
-                    if(UIManager.getLookAndFeel().getClass().getName().equals(ILAFs[index].getClassName())) Logger.getLogger(ColorUtility.class.getName()).info("Changed Look and Feel to: " + UIManager.getLookAndFeel());
-                } catch (ClassNotFoundException CNFE){
-                    Logger.getLogger(ColorUtility.class.getName()).error(CNFE);
-                    Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
-                } catch (InstantiationException  IE){
-                    Logger.getLogger(ColorUtility.class.getName()).error(IE);
-                    Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
-                } catch (IllegalAccessException IAE){
-                    Logger.getLogger(ColorUtility.class.getName()).error(IAE);
-                    Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
-                } catch (UnsupportedLookAndFeelException ULAFE){
-                    Logger.getLogger(ColorUtility.class.getName()).error(ULAFE);
-                    Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
-                }
+        add(pack);
+
+        LAFJC.addActionListener((ActionEvent AE) -> {
+            int index = LAFJC.getSelectedIndex();
+            try {
+                UIManager.setLookAndFeel(ILAFs[index].getClassName());
+                SwingUtilities.updateComponentTreeUI(CU);
+                
+                CU.setVisible(false);
+                CU.dispose();
+                CU = null;
+                System.gc();
+                
+                OptionsLAFChange = true;
+                CU = new ColorUtility();
+                if(pack.isSelected()) CU.pack();
+                
+                if(UIManager.getLookAndFeel().getClass().getName().equals(ILAFs[index].getClassName())) Logger.getLogger(ColorUtility.class.getName()).info("Changed Look and Feel to: " + UIManager.getLookAndFeel());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException E){
+                Logger.getLogger(ColorUtility.class.getName()).error(E);
+                Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
             }
         });
-        return LAF;
+    }}
+    
+    
+    public static boolean isEasyViewTextVisible = true;
+    @Override
+    public void actionPerformed(ActionEvent AE) {
+        switch(AE.getActionCommand()){
+            case "Ev":
+                System.out.println("as");
+                CU.setResizable(true);
+                if(texttoggle.isSelected()){
+                    isEasyViewTextVisible = true;
+                    Ev.update(cc.getColor());
+                } else {
+                    isEasyViewTextVisible = false;
+                    Ev.update(cc.getColor());
+                }
+                pack();
+                CU.setResizable(false);
+                break;
+            case "Evred":
+                break;
+            case "Evgreen":
+                break;
+            case "Evblue":
+                break;
+            case "Evhex":
+                break;
+            case "Evahex":
+                break;
+        }
     }
     
-    public static JPanel logging() {
-        JPanel L = new JPanel();
-        
-        return L;
-    }
-    
-    public Options(){
-        setTitle("Color Utility Options");
-        setLayout(new GridBagLayout());
-        //Initialize GridBagConstraints
+    JPanel Background;
+    public Options() {
+        setTitle(RB.getString("Options.Title"));
+        Background = new JPanel(new GridBagLayout());
         
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
-
         
-        //Add plafComponents
+        c.gridx = 0;
+        c.gridy = 0;
+        Background.add(new Visibility(),c);
+        
         c.gridx = 1;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0.2;
-        c.weighty = 0.2;
-        add(LookAndFeel(),c);
+        Background.add(new Logging());
         
         c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.ipadx = 20;
-        c.ipady = 20;
-        add(visibility(),c);
+        c.gridy = 1;
+        Background.add(new Background(),c);
         
-        c.gridx = 0;
-        c.gridy = 3;
-        add(newBrightnessController(),c);
+        c.gridx = 1;
+        Background.add(new LookAndFeel(),c);
+
+        Background.setBorder(new EmptyBorder(4,4,4,4));
+        
+        add(Background);
         
         setAlwaysOnTop(true);
+        setSize(cc.getWidth(),cc.getHeight()+ccc.getHeight());
         pack();
-        setLocationRelativeTo(null);
+        setLocation(Ev.getLocationOnScreen().x, Ev.getLocationOnScreen().y+Ev.getHeight());
         setVisible(true);
         setResizable(false);
     }

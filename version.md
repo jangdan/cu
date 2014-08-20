@@ -37,6 +37,12 @@ version.md
 ---
 Gamma(γ)
 --------------
+######0.γ5.3.0 (8.20.14)
+* JDK 1.8
+	* Multicatch, lambda expressions, and String switch-case everywhere!
+* Options remodeling in work.
+* Mac OS ‘two About windows’ bug has been fixed (magically!)
+	
 ######0.γ5.2.0 (8.15.14)
 * Organized classes
 * Reintroduced old Easyview foreground color setting algorithm

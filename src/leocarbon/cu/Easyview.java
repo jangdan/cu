@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import static leocarbon.cu.ColorUtility.A;
 import static leocarbon.cu.ColorUtility.Monaco18;
+import static leocarbon.cu.Options.isEasyViewTextVisible;
 
 public class Easyview extends JPanel {
     public static JLabel evr = new JLabel("Loading...",JLabel.CENTER);
@@ -27,7 +28,6 @@ public class Easyview extends JPanel {
         g = input.getGreen();
         b = input.getBlue();
         a = input.getAlpha();
-        System.out.println(input + " " + a);
         
         ahex = Integer.toHexString(input.hashCode()).toUpperCase();
         if(ahex.length() < 8){
@@ -41,7 +41,7 @@ public class Easyview extends JPanel {
         
         rgba = Integer.toString(input.getRGB());
         
-        if(ActionHandler.isEasyViewTextVisible == true){
+        if(isEasyViewTextVisible == true){
             evr.setText("<html>Red<br>" + r + "</html>");
             evb.setText("<html>Green<br>" + g + "</html>");
             evg.setText("<html>Blue<br>" + b + "</html>");
@@ -95,11 +95,7 @@ public class Easyview extends JPanel {
         ||((g <= 136 && g >= 120)&&(b <= 136 && b >= 120))&&(r <= 192 && r >= 64)) setForeground(new Color(255));
         else if(!(r <= 136 && r >= 120)||!(g <= 136 && g >= 120)||!(b <= 136 && b >= 120)) setForeground(new Color(255-r,255-g,255-b));
         
-        if(A != null && A.isVisible()){
-            SwingUtilities.invokeLater(new Runnable() { @Override public void run() {
-                A.setColors();
-            }});
-        }
+        if(A != null && A.isVisible()) SwingUtilities.invokeLater(() -> { A.setColors(); });
     }
     
     public Easyview() {

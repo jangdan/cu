@@ -21,9 +21,7 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
     int r, g, b;
     
     @Override
-    public void updateChooser() {
-        
-    }
+    public void updateChooser() {}
 
     @Override
     protected void buildChooser() {
@@ -92,18 +90,23 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
         r = cc.getColor().getRed();
         g = cc.getColor().getGreen();
         b = cc.getColor().getBlue();
-        if("invert".equals(AE.getActionCommand())){
-            cc.setColor(new Color(255 - r, 255 - g, 255 - b));
-            Logger.getLogger(InvertColor.class.getName()).trace("Inverted Color");
-        } else if("rinvert".equals(AE.getActionCommand())){
-            cc.setColor(new Color(255 - r, g, b));
-            Logger.getLogger(InvertColor.class.getName()).trace("Inverted red channel");
-        } else if("ginvert".equals(AE.getActionCommand())){
-            cc.setColor(new Color(r, 255 - g, b));
-            Logger.getLogger(InvertColor.class.getName()).trace("Inverted green channel");
-        } else if("binvert".equals(AE.getActionCommand())){
-            cc.setColor(new Color(r, g, 255 - b));
-            Logger.getLogger(InvertColor.class.getName()).trace("Inverted blue channel");
+        switch(AE.getActionCommand()){
+            case "invert":
+                cc.setColor(new Color(255 - r, 255 - g, 255 - b));
+                Logger.getLogger(InvertColor.class.getName()).trace("Inverted Color");
+                break;
+            case "rinvert":
+                cc.setColor(new Color(255 - r, g, b));
+                Logger.getLogger(InvertColor.class.getName()).trace("Inverted red channel");
+                break;
+            case "ginvert":
+                cc.setColor(new Color(r, 255 - g, b));
+                Logger.getLogger(InvertColor.class.getName()).trace("Inverted green channel");
+                break;
+            case "binvert":
+                cc.setColor(new Color(r, g, 255 - b));
+                Logger.getLogger(InvertColor.class.getName()).trace("Inverted blue channel");
+                break;
         }
     }
     

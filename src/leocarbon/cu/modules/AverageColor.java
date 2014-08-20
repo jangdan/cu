@@ -78,9 +78,7 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
     }
     
     @Override
-    public void updateChooser() {
-
-    }
+    public void updateChooser() {}
 
     @Override
     protected void buildChooser() {

@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import static leocarbon.cu.ColorUtility.CU;
+import static leocarbon.cu.ColorUtility.Ev;
 import static leocarbon.cu.ColorUtility.Monaco18;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
@@ -19,13 +20,13 @@ public class About extends JFrame {
     public About() {
         setTitle(RB.getString("About.Title"));
         Background = new JPanel();
-        story = new JLabel("Loading...", JLabel.CENTER);
+        story = new JLabel(RB.getString("JLabel.loading"), JLabel.CENTER);
         license = new JLabel(new ImageIcon(getClass().getResource("/leocarbon/cu/assets/img/license.png")));
         
         story.setFont(Monaco18);
         story.setText("<html>"
                 + RB.getString("About.story.text")
-                + "<br><br>v 0.γ5.0.1"
+                + "<br><br>v 0.γ5.3.0"
                 + "<br><br>https://github.com/leocarbon/cu"
                 + "<br><br>http://leocarbon.github.io"
                 + "</html>");
@@ -41,9 +42,10 @@ public class About extends JFrame {
         Background.setBackground(cc.getColor());
         story.setForeground(Easyview.evr.getForeground());
         
-        setSize(CU.getSize().width,ColorUtility.Ev.getSize().width);
+        setAlwaysOnTop(true);
+        setSize(Ev.getWidth(),Ev.getHeight());
         pack();
-        setLocation(CU.getLocation());
+        setLocation(Ev.getLocationOnScreen());
         setVisible(true);
         setResizable(false);
     }

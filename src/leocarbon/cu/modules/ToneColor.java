@@ -18,9 +18,7 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
     JPanel TonePanel;
     
     @Override
-    public void updateChooser() {
-        
-    }
+    public void updateChooser() {}
 
     @Override
     protected void buildChooser() {
@@ -62,12 +60,15 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent AE) {
-        if("lighten".equals(AE.getActionCommand())){
-            cc.setColor(cc.getColor().brighter());
-            Logger.getLogger(ToneColor.class.getName()).trace("Brightened color");
-        } else if("darken".equals(AE.getActionCommand())){
-            cc.setColor(cc.getColor().darker());
-            Logger.getLogger(ToneColor.class.getName()).trace("Darkened color");
+        switch(AE.getActionCommand()){
+            case "lighten":
+                cc.setColor(cc.getColor().brighter());
+                Logger.getLogger(ToneColor.class.getName()).trace("Brightened color");
+                break;
+            case "darken":
+                cc.setColor(cc.getColor().darker());
+                Logger.getLogger(ToneColor.class.getName()).trace("Darkened color");
+                break;
         }
     }
 }

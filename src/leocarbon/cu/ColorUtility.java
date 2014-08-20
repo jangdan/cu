@@ -45,6 +45,8 @@ public class ColorUtility extends JFrame {
     public static ColorUtility CU;
     private static Application MacOSCU;
     
+    public static boolean OptionsLAFChange = false;
+    
     public static About A;
     public static Options O;
     
@@ -86,10 +88,9 @@ public class ColorUtility extends JFrame {
     }; int[] HelpmenuitemAccelerators = {
         KeyEvent.VK_0
     };
-//</editor-fold>
     public static JRadioButtonMenuItem rbmenuitem;
     public static JCheckBoxMenuItem cbmenuitem;
-    
+//</editor-fold>
     
     public static Font Monaco18 = new Font("Monaco", Font.PLAIN, 18);
         
@@ -137,22 +138,15 @@ public class ColorUtility extends JFrame {
         Logger.getLogger(ColorUtility.class.getName()).trace("Look and Feel: " + UIManager.getSystemLookAndFeelClassName());
         
         //Set Look and Feel to the operating system's native Look and Feel
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            if(UIManager.getLookAndFeel().getClass().getName().equals(UIManager.getSystemLookAndFeelClassName())) Logger.getLogger(ColorUtility.class.getName()).trace("Set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException CNFE){
-            Logger.getLogger(ColorUtility.class.getName()).error(CNFE);
-            Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
-        } catch (InstantiationException  IE){
-            Logger.getLogger(ColorUtility.class.getName()).error(IE);
-            Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
-        } catch (IllegalAccessException IAE){
-            Logger.getLogger(ColorUtility.class.getName()).error(IAE);
-            Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException ULAFE){
-            Logger.getLogger(ColorUtility.class.getName()).error(ULAFE);
-            Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
-        }
+        if(!OptionsLAFChange){
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                if(UIManager.getLookAndFeel().getClass().getName().equals(UIManager.getSystemLookAndFeelClassName())) Logger.getLogger(ColorUtility.class.getName()).trace("Set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException E){
+                Logger.getLogger(ColorUtility.class.getName()).error(E);
+                Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
+            }
+        } else OptionsLAFChange = false;
         
         //Extra implementations for Mac OS
         if("mac".equals(OSname)){
@@ -281,16 +275,25 @@ public class ColorUtility extends JFrame {
         @Override
         public void handleAbout(ApplicationEvent AE) {
             A = new About();
+            AE.setHandled(true);
         }
         @Override
         public void handlePreferences(ApplicationEvent AE) {
             O = new Options();
+            AE.setHandled(true);
         }
         @Override
-        public void handleOpenApplication(ApplicationEvent AE) {} @Override
-        public void handleOpenFile(ApplicationEvent AE) {} @Override
-        public void handlePrintFile(ApplicationEvent AE) {} @Override
-        public void handleQuit(ApplicationEvent AE) {} @Override
-        public void handleReOpenApplication(ApplicationEvent AE) {}
+        public void handleQuit(ApplicationEvent AE) {
+            CU.setVisible(false);
+            CU.dispose();
+            CU = null;
+            System.gc();
+            AE.setHandled(true);
+        } 
+        @Override
+        public void handleOpenApplication(ApplicationEvent AE) {AE.setHandled(true);} @Override
+        public void handleOpenFile(ApplicationEvent AE) {AE.setHandled(true);} @Override
+        public void handlePrintFile(ApplicationEvent AE) {AE.setHandled(true);} @Override
+        public void handleReOpenApplication(ApplicationEvent AE) {AE.setHandled(true);}
     }
 }

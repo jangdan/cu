@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import static leocarbon.cu.ColorUtility.Ev;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.Easyview.a;
 import org.apache.log4j.Logger;
 
 public class RandomColor extends AbstractColorChooserPanel implements ActionListener{
@@ -28,9 +28,7 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
     int r, g, b;
     
     @Override
-    public void updateChooser() {
-        
-    }
+    public void updateChooser() {}
 
     @Override
     protected void buildChooser() {
@@ -93,30 +91,32 @@ public class RandomColor extends AbstractColorChooserPanel implements ActionList
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent AE) {
         r = cc.getColor().getRed();
         g = cc.getColor().getGreen();
         b = cc.getColor().getBlue();
         
         randomGenerator = new Random();
-        if("random".equals(e.getActionCommand())){
-             cc.setColor(new Color((randomGenerator.nextInt(255)),randomGenerator.nextInt(255),randomGenerator.nextInt(255),Ev.a));
-            Logger.getLogger(RandomColor.class.getName()).trace("Randomized Color");
-        } else if("seed".equals(e.getActionCommand())){
-            if("random".equals(randomSeed.getText())){
-                long l = randomGenerator.nextLong();
-                randomGenerator.setSeed(l);
-                currentRandomSeed.setText(RB.getString("RC.seed.current") + l);
-                Logger.getLogger(RandomColor.class.getName()).trace("Set seed to: " + l);
-            } else if(randomSeed.getText().matches("[0-9]+")){
-                randomGenerator.setSeed(Long.parseLong(randomSeed.getText()));
-                currentRandomSeed.setText(RB.getString("RC.seed.current") + Long.parseLong(randomSeed.getText()));
-                Logger.getLogger(RandomColor.class.getName()).info("Set seed to: " + Long.parseLong(randomSeed.getText()));
-            } else {
-                randomGenerator.setSeed(toAscii(randomSeed.getText()));
-                currentRandomSeed.setText(RB.getString("RC.seed.current") + toAscii(randomSeed.getText()));
-                Logger.getLogger(RandomColor.class.getName()).info("Set seed to: " + toAscii(randomSeed.getText()));
-            }
+        switch(AE.getActionCommand()){
+            case "random":
+                cc.setColor(new Color((randomGenerator.nextInt(255)),randomGenerator.nextInt(255),randomGenerator.nextInt(255),a));
+                Logger.getLogger(RandomColor.class.getName()).trace("Randomized Color");
+                break;
+            case "seed":
+                if("random".equals(randomSeed.getText())){
+                    long l = randomGenerator.nextLong();
+                    randomGenerator.setSeed(l);
+                    currentRandomSeed.setText(RB.getString("RC.seed.current") + l);
+                    Logger.getLogger(RandomColor.class.getName()).trace("Set seed to: " + l);
+                } else if(randomSeed.getText().matches("[0-9]+")){
+                    randomGenerator.setSeed(Long.parseLong(randomSeed.getText()));
+                    currentRandomSeed.setText(RB.getString("RC.seed.current") + Long.parseLong(randomSeed.getText()));
+                    Logger.getLogger(RandomColor.class.getName()).info("Set seed to: " + Long.parseLong(randomSeed.getText()));
+                } else {
+                    randomGenerator.setSeed(toAscii(randomSeed.getText()));
+                    currentRandomSeed.setText(RB.getString("RC.seed.current") + toAscii(randomSeed.getText()));
+                    Logger.getLogger(RandomColor.class.getName()).info("Set seed to: " + toAscii(randomSeed.getText()));
+                } break;
         }
     }
     public static long toAscii(String s) {

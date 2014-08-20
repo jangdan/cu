@@ -15,6 +15,7 @@ import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.CU;
 import static leocarbon.cu.ColorUtility.RB;
+import static leocarbon.cu.ColorUtility.cc;
 import org.apache.log4j.Logger;
 
 public class DigitalEyedropper extends AbstractColorChooserPanel implements ActionListener {
@@ -37,9 +38,7 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
     }
 
     @Override
-    public void updateChooser() {
-        
-    }
+    public void updateChooser() {}
 
     @Override
     protected void buildChooser() {
@@ -99,7 +98,7 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
         }
         @Override
         protected void process(List<Integer> i) {
-            CU.cc.setColor(intColor);
+            cc.setColor(intColor);
         }
 
         public int getColor() {
