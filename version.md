@@ -37,6 +37,9 @@ version.md
 ---
 Gamma(γ)
 --------------
+######0.γ5.3.1 (8.22.14)
+* Fixed miniscule if-statement bug in AverageColor.java
+	
 ######0.γ5.3.0 (8.20.14)
 * JDK 1.8
 	* Multicatch, lambda expressions, and String switch-case everywhere!

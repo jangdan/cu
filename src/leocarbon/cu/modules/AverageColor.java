@@ -102,8 +102,9 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
 
     @Override
     public void actionPerformed(ActionEvent AE) {
-        if(AE.getActionCommand().equals("A"))
-        img = getImage();
-        cc.getSelectionModel().setSelectedColor(getMedian());
+        if(AE.getActionCommand().equals("A")){
+            img = getImage();
+            cc.getSelectionModel().setSelectedColor(getMedian());
+        }
     }
 }
