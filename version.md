@@ -37,6 +37,10 @@ version.md
 ---
 Gamma(γ)
 --------------
+######0.γ5.4.0 (8.24.14)
+* the menu bar is now language-independent
+* minor fixes
+	
 ######0.γ5.3.1 (8.22.14)
 * Fixed miniscule if-statement bug in AverageColor.java
 	

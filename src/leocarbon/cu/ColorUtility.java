@@ -50,41 +50,52 @@ public class ColorUtility extends JFrame {
     public static About A;
     public static Options O;
     
-    public static ResourceBundle RB = ResourceBundle.getBundle("leocarbon.cu.language.locale", Locale.getDefault());
+    public static final ResourceBundle RB = ResourceBundle.getBundle("leocarbon.cu.language.locale", Locale.getDefault());
+    
+    public static final InvertColor IC = new InvertColor();
+    public static final RandomColor RC = new RandomColor();
+    public static final ScrollColor SC = new ScrollColor();
+    public static final DigitalEyedropper DEyed = new DigitalEyedropper();
+    public static final AverageColor AC = new AverageColor();
+    public static final ToneColor TC = new ToneColor();
     
     //<editor-fold defaultstate="collapsed" desc="Menu bar">
     //Menu bar
     public static JMenuBar menubar;
     public static JMenu menu;
     public static String[] menuNames = {
-        "File", "Edit", "Modules", "Window", "Help"
+        RB.getString("file"), RB.getString("edit"), RB.getString("modules"), RB.getString("window"), RB.getString("help")
     };
     public static JMenuItem menuitem;
     public static String[] FilemenuitemNames = {
-        "Options"
+        RB.getString("file.Options")
     }; int[] FilemenuitemAccelerators = {
         KeyEvent.VK_O
     };
     public static String[] EditmenuitemNames = {
-        "Copy Hex Value", "Copy AHex Value", /*"Copy RGB Value", */"Copy RGBA Value", "/", "Paste Hex Value", "Paste AHex Value",/* "Paste RGB Value", */"Paste RGBA Value", "/", "Undo", "Redo", "/",
-        "Invert RGB", "Invert Red", "Invert Green", "Invert Blue", "/",
-        "Brighten", "Darken"
+        RB.getString("edit.cHex"), RB.getString("edit.cAHex"), /*RB.getString("edit.cRGB"), */RB.getString("edit.cRGBA"), "/",
+        RB.getString("edit.pHex"), RB.getString("edit.pAHex"), /*RB.getString("edit.pRGB"), */RB.getString("edit.pRGBA"), "/",
+        RB.getString("edit.undo"), RB.getString("edit.redo"), "/",
+        RB.getString("IC.invert"), RB.getString("IC.rinvert"), RB.getString("IC.ginvert"), RB.getString("IC.binvert"), "/",
+        RB.getString("edit.b"), RB.getString("edit.d"),
     }; int[] EditmenuitemAccelerators = {
         KeyEvent.VK_C, -1, -1, -1, KeyEvent.VK_V, -1, -1, -1, KeyEvent.VK_Z, KeyEvent.VK_Y, -1,
         KeyEvent.VK_I, -1, -1, -1, -1,
         KeyEvent.VK_B, KeyEvent.VK_D
     };
-    public static String[] ModulesmenuitemNames = {
+    
+    public static final String[] ModulesmenuitemNames = {
+        AC.getDisplayName(), DEyed.getDisplayName(), RC.getDisplayName(), SC.getDisplayName()
     }; int[] ModulesmenuitemAccelerators = {
         KeyEvent.VK_A, KeyEvent.VK_E,KeyEvent.VK_R, KeyEvent.VK_S
     };
     public static String[] WindowmenuitemNames = {
-        "Color Mixer", "Color Functions", "EasyView", "/", "Reset Windows"
+        RB.getString("cm"), RB.getString("ccm"), RB.getString("ev"), "/", RB.getString("window.reset")
     }; int[] WindowmenuitemAccelerators = {
         KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, -1, -1
     };
-    public static String[] HelpmenuitemNames = {
-        "About"
+    public static final String[] HelpmenuitemNames = {
+        RB.getString("help.a")
     }; int[] HelpmenuitemAccelerators = {
         KeyEvent.VK_0
     };
@@ -102,13 +113,6 @@ public class ColorUtility extends JFrame {
     
     public static Easyview Ev;
     public JCheckBox evtoggle;
-    
-    public InvertColor IC = new InvertColor();
-    public RandomColor RC = new RandomColor();
-    public ScrollColor SC = new ScrollColor();
-    public DigitalEyedropper DEyed = new DigitalEyedropper();
-    public AverageColor AC = new AverageColor();
-    public ToneColor TC = new ToneColor();
         
     public static String OSname;
     public static void getOSname(){
@@ -168,23 +172,21 @@ public class ColorUtility extends JFrame {
         
         //Initialize the menubar and its menus
         menubar = new JMenuBar();
-        menu = new JMenu(RB.getString("CU.MenuBar.File")); menubar.add(createmenu(RB.getString("CU.MenuBar.File"), FilemenuitemNames, FilemenuitemAccelerators));
-        menu = new JMenu(RB.getString("CU.MenuBar.Edit")); menubar.add(createmenu(RB.getString("CU.MenuBar.Edit"), EditmenuitemNames, EditmenuitemAccelerators));
-        menu = new JMenu(RB.getString("CU.MenuBar.Modules"));
+        menu = new JMenu(RB.getString("file")); menubar.add(createmenu(RB.getString("file"), FilemenuitemNames, FilemenuitemAccelerators));
+        menu = new JMenu(RB.getString("edit")); menubar.add(createmenu(RB.getString("edit"), EditmenuitemNames, EditmenuitemAccelerators));
+        menu = new JMenu(RB.getString("modules"));
             AverageColor a = new AverageColor(); DigitalEyedropper d = new DigitalEyedropper(); RandomColor rc = new RandomColor(); ScrollColor s = new ScrollColor();
-            ModulesmenuitemNames = new String[]{ a.getDisplayName(), d.getDisplayName(), rc.getDisplayName(), s.getDisplayName() };
-            a = null; d = null; rc = null; s = null; System.gc();
-            menubar.add(createmenu(RB.getString("CU.MenuBar.Modules"), ModulesmenuitemNames, ModulesmenuitemAccelerators));
-        menu = new JMenu(RB.getString("CU.MenuBar.Window")); menubar.add(createmenu(RB.getString("CU.MenuBar.Window"), WindowmenuitemNames, WindowmenuitemAccelerators));
-        menu = new JMenu(RB.getString("CU.MenuBar.Help")); menubar.add(createmenu(RB.getString("CU.MenuBar.Help"), HelpmenuitemNames, HelpmenuitemAccelerators));
+            menubar.add(createmenu(RB.getString("modules"), ModulesmenuitemNames, ModulesmenuitemAccelerators));
+        menu = new JMenu(RB.getString("window")); menubar.add(createmenu(RB.getString("window"), WindowmenuitemNames, WindowmenuitemAccelerators));
+        menu = new JMenu(RB.getString("help")); menubar.add(createmenu(RB.getString("help"), HelpmenuitemNames, HelpmenuitemAccelerators));
         
         //Make the Swatches bigger
         int SwatchSize = 15;
         UIManager.put("ColorChooser.swatchesRecentSwatchSize", new Dimension(SwatchSize, SwatchSize));
         UIManager.put("ColorChooser.swatchesSwatchSize", new Dimension(SwatchSize, SwatchSize));
         //ColorChooser (JColorChooser)
-        cmtoggle = new JCheckBox(RB.getString("CU.cm"),true);
-        Border cmborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("CU.cm"));
+        cmtoggle = new JCheckBox(RB.getString("cm"),true);
+        Border cmborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("cm"));
         final JPanel cm = new JPanel(new BorderLayout());
         cm.setBorder(cmborder);
         c.gridx = 0;
@@ -193,15 +195,15 @@ public class ColorUtility extends JFrame {
         add(cm,c);
 
         //CustomColorChooser (JColorChooser)
-        ccmtoggle = new JCheckBox(RB.getString("CU.ccm"),true);
-        Border ccmborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("CU.ccm"));
+        ccmtoggle = new JCheckBox(RB.getString("ccm"),true);
+        Border ccmborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("ccm"));
         final JPanel ccm = new JPanel(new BorderLayout());
         ccm.setBorder(ccmborder);
         c.gridy = 2;
         add(ccm,c);
         
         //Easyview
-        evtoggle = new JCheckBox(RB.getString("CU.ev"),true);
+        evtoggle = new JCheckBox(RB.getString("ev"),true);
         //Border evborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Easy View");
         Ev = new Easyview();
         c.gridy = 0;

@@ -3,6 +3,10 @@ Color Utility
 version.txt
 
 Gamma(γ)
+0.γ5.4.0 (8.24.14)
+	- the menu bar is now language-independent
+	- minor fixes
+
 0.γ5.3.1 (8.22.14)
 	- Fixed miniscule if-statement bug in AverageColor.java
 
@@ -20,7 +24,7 @@ Gamma(γ)
 		- Component visibility settings fixed
 	- Can’t resize program window anymore... (will be able to in the future)
 
-0.γ5.1.0 (8.11~12.14)
+0.γ5.1.0 (8.12.14)
 	- More Copy/Paste functions.
 	- Easyview is now a separate Object!
 	- Localization for American English and Korean (translator volunteers welcome!)

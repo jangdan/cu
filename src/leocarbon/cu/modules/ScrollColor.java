@@ -118,6 +118,8 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
         c.gridheight = 1;
         scrollPanel.add(saturationScrollSpeed,c);
         
+        brightnessScroll.setEnabled(false); brightnessScrollSpeed.setEnabled(false); //Doesn't function as expected
+        
         add(scrollPanel);
     }
 
@@ -140,41 +142,40 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
     public void actionPerformed(ActionEvent AE) {
         switch(AE.getActionCommand()){
             case "hscroll":
-                Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has started");
                 if(scroll.isSelected()){
                     (job = new scrolljob()).execute();
+                    Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has started");
                 } else {
                     job.cancel(true);
                     job = null;
+                    Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has ended");
                 }
-                Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has ended");
                 break;
             case "bscroll":
-                Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has started");
                 if(brightnessScroll.isSelected()){
                     (bjob = new bscrolljob()).execute();
                     saturationScroll.setEnabled(false);
+                    Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has started");
                 } else {
                     bjob.cancel(true);
                     bjob = null;
                     saturationScroll.setEnabled(true);
+                    Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has ended");
                 }
-                Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has ended");
                 break;
             case "sscroll":
-                Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has started");
                 if(saturationScroll.isSelected()){
                     (sjob = new sscrolljob()).execute();
-                    brightnessScroll.setEnabled(false);
+                    //brightnessScroll.setEnabled(false);
+                    Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has started");
                 } else {
                     sjob.cancel(true);
                     sjob = null;
-                    brightnessScroll.setEnabled(true);
+                    //brightnessScroll.setEnabled(true);
+                    Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has ended");
                 }
-                Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has ended");
                 break;
         }
-        brightnessScroll.setEnabled(false); //Doesn't function as expected
     }
 
     @Override

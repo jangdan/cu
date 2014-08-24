@@ -36,10 +36,6 @@ import static leocarbon.cu.ColorUtility.cc;
 import static leocarbon.cu.ColorUtility.ccc;
 import org.apache.log4j.Logger;
 
-/**
- *
- * @author Leocarbon
- */
 public class Options extends JFrame implements ActionListener {
     JCheckBox texttoggle;
     private class Visibility extends JPanel { private Visibility() {
