@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import static leocarbon.cu.ColorUtility.CU;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
 import org.apache.log4j.Logger;

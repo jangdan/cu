@@ -7,9 +7,11 @@ package leocarbon.cu;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
@@ -27,64 +29,64 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
-import static leocarbon.cu.ColorUtility.CU;
-import static leocarbon.cu.ColorUtility.Ev;
-import static leocarbon.cu.ColorUtility.O;
-import static leocarbon.cu.ColorUtility.OptionsLAFChange;
-import static leocarbon.cu.ColorUtility.RB;
-import static leocarbon.cu.ColorUtility.cc;
-import static leocarbon.cu.ColorUtility.ccc;
+import static leocarbon.cu.ColorUtility.*;
 import org.apache.log4j.Logger;
 
 public class Options extends JFrame implements ActionListener {
-    JCheckBox texttoggle;
+    JCheckBox texttoggle, RGBtoggle, Hextoggle, aHextoggle;
     private class Visibility extends JPanel { private Visibility() {
-        Border controlborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Component Visibility");
+        Border controlborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("Options.v.title"));
         setBorder(controlborder);
         
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        JPanel ccmpanel = new JPanel();
-        ccmpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Color Functions"));
-        ccmpanel.add(CU.ccmtoggle);
-        c.gridx = 0; c.gridy = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        add(ccmpanel,c);
+        JPanel evpanel = new JPanel(new GridBagLayout()); {
+            c.fill = GridBagConstraints.NONE;
+            evpanel.add(CU.evtoggle,c);
 
-        JPanel evpanel = new JPanel(new GridBagLayout());
-        evpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Easy View"));
-        c.fill = GridBagConstraints.NONE;
-        evpanel.add(CU.evtoggle,c);
-        
-        texttoggle = new JCheckBox("Show Color Values", true);
-        texttoggle.addActionListener(O);
-        texttoggle.setActionCommand("Ev");
-        c.gridy = 1;
-        evpanel.add(texttoggle,c);
-        
-        JPanel Evtoggle = new JPanel(new GridBagLayout()); {
-            JCheckBox Redtoggle = new JCheckBox("Red", true);
-            c.gridx = 0; c.gridy = 0;
-            Evtoggle.add(Redtoggle,c);
-            
-            JCheckBox Greentoggle = new JCheckBox("Show Color Values", true);
-            JCheckBox Bluetoggle = new JCheckBox("Show Color Values", true);
-            JCheckBox Hextoggle = new JCheckBox("Show Color Values", true);
-            JCheckBox aHextoggle = new JCheckBox("Show Color Values", true);
+            texttoggle = new JCheckBox("Show Color Values", true);
+            texttoggle.addActionListener(Options.this);
+            texttoggle.setActionCommand("Ev");
+            c.gridy = 1;
+            evpanel.add(texttoggle,c);
+
+            JPanel Evtoggle = new JPanel(new GridBagLayout()); {
+                RGBtoggle = new JCheckBox("RGB", true);
+                RGBtoggle.setActionCommand(RB.getString("Options.v.ev.rgb"));
+                RGBtoggle.addActionListener(Options.this);
+                c.gridx = 0; c.gridy = 0;
+                Evtoggle.add(RGBtoggle,c);
+                Hextoggle = new JCheckBox(RB.getString("Options.v.ev.hex"), true);
+                Hextoggle.setActionCommand("Evhex");
+                Hextoggle.addActionListener(Options.this);
+                c.gridx = 0; c.gridy = 1;
+                Evtoggle.add(Hextoggle,c);
+                aHextoggle = new JCheckBox(RB.getString("Options.v.ev.ahex"), true);
+                aHextoggle.setActionCommand("Evahex");
+                aHextoggle.addActionListener(Options.this);
+                c.gridx = 0; c.gridy = 2;
+                Evtoggle.add(aHextoggle,c);
+            }
+            c.gridy = 2;
+            evpanel.add(Evtoggle,c);
         }
-        c.gridy = 2;
-        evpanel.add(Evtoggle,c);
-        
-        c.gridx = 0; c.gridy = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        evpanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK), new EmptyBorder(4, 4, 2, 4)));
+        c.gridx = 0; c.gridy = 0;
+        c.fill = GridBagConstraints.BOTH;
         add(evpanel,c);
 
         JPanel cmpanel = new JPanel();
-        cmpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Color Picker"));
+        cmpanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK), new EmptyBorder(2, 4, 2, 4)));
         cmpanel.add(CU.cmtoggle);
-        c.gridx = 0; c.gridy = 2;
+        c.gridx = 0; c.gridy = 1;
         add(cmpanel,c);
+        
+        JPanel ccmpanel = new JPanel();
+        ccmpanel.setBorder(BorderFactory.createEmptyBorder(2, 4, 4, 4));
+        ccmpanel.add(CU.ccmtoggle);
+        c.gridx = 0; c.gridy = 2;
+        add(ccmpanel,c);
     }}
     private class Logging extends JPanel { public Logging() {
         
@@ -110,8 +112,6 @@ public class Options extends JFrame implements ActionListener {
             c.gridy = 2;
             c.gridwidth = 1;
             c.gridheight = 1;
-            c.weightx = 0.09;
-            c.weighty = 0.09;
             add(Displaybrightness,c);
             final JSlider brightness = new JSlider(91,255,UIManager.getColor("Panel.background").getRed());
             brightness.setMajorTickSpacing(41);
@@ -129,8 +129,6 @@ public class Options extends JFrame implements ActionListener {
             c.gridy = 1;
             c.gridwidth = 2;
             c.gridheight = 1;
-            c.weightx = 1;
-            c.weighty = 1;
             add(brightness,c);
 
             JButton brightnessReset = new JButton("Reset background color");
@@ -141,53 +139,68 @@ public class Options extends JFrame implements ActionListener {
             c.gridy = 2;
             c.gridwidth = 1;
             c.gridheight = 1;
-            c.weightx = 0.09;
-            c.weighty = 0.09;
             add(brightnessReset,c);
 
             c.gridx = 0;
             c.gridy = 0;
             c.gridwidth = 2;
             c.gridheight = 1;
-            c.weightx = 0.1;
-            c.weighty = 0.1;
             //add(new JLabel("<html><font color = 'red'><b>Note: </b></font><i>This function might not work for some Look and Feels.</i></html>"),c);
             Border brightnessBorder = BorderFactory.createTitledBorder(
                     BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Background");
             setBorder(brightnessBorder);
         }
     }
+    private static int currentLAF = 0;
     private static class LookAndFeel extends JPanel { public LookAndFeel() {
-        setLayout(new GridLayout(2,0));
+        setLayout(new GridLayout(1,1));
 
-        Border plafBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Look and Feel");
+        Border plafBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("Options.laf.title"));
         setBorder(plafBorder);
 
         final UIManager.LookAndFeelInfo[] ILAFs = UIManager.getInstalledLookAndFeels();
         String[] ILAFNames = new String[ILAFs.length];
-
-        for(int a = 0; a < ILAFs.length; ++a) ILAFNames[a] = ILAFs[a].getName();
+        
+        for(int a = 0; a < ILAFs.length; ++a){
+            ILAFNames[a] = ILAFs[a].getName();
+            if(ILAFs[a].getName().equals(UIManager.getLookAndFeel().getName())) currentLAF = a;
+        }
         final JComboBox LAFJC = new JComboBox(ILAFNames);
-
+        LAFJC.setSelectedIndex(currentLAF);
         add(LAFJC);
-
-        final JCheckBox pack = new JCheckBox("JFrame.pack() on change", true);
-        add(pack);
-
+        
         LAFJC.addActionListener((ActionEvent AE) -> {
             int index = LAFJC.getSelectedIndex();
             try {
                 UIManager.setLookAndFeel(ILAFs[index].getClassName());
                 SwingUtilities.updateComponentTreeUI(CU);
                 
+                boolean Aboutwasopened = (A != null);
+                Color wasColor = cc.getColor();
                 CU.setVisible(false);
+                setVisible(false);
+                if(Aboutwasopened) A.setVisible(false);
                 CU.dispose();
+                O.dispose();
+                if(Aboutwasopened) A.dispose();
                 CU = null;
+                O = null;
+                if(Aboutwasopened) A = null;
                 System.gc();
                 
                 OptionsLAFChange = true;
                 CU = new ColorUtility();
-                if(pack.isSelected()) CU.pack();
+                CU.pack();
+                cc.setColor(wasColor);
+                
+                EvD = new Dimension(Ev.getSize());
+                EvP = new Point(Ev.getLocationOnScreen());
+                CUD = new Dimension(CU.getSize());
+                
+                O = new Options();
+                O.pack();
+                
+                if(Aboutwasopened) A = new About();
                 
                 if(UIManager.getLookAndFeel().getClass().getName().equals(ILAFs[index].getClassName())) Logger.getLogger(ColorUtility.class.getName()).info("Changed Look and Feel to: " + UIManager.getLookAndFeel());
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException E){
@@ -198,32 +211,51 @@ public class Options extends JFrame implements ActionListener {
     }}
     
     
-    public static boolean isEasyViewTextVisible = true;
+    public static boolean isEasyViewTextVisible = true, RGBv = true, Hexv = true, aHexv = true;
     @Override
     public void actionPerformed(ActionEvent AE) {
         switch(AE.getActionCommand()){
             case "Ev":
-                System.out.println("as");
-                CU.setResizable(true);
                 if(texttoggle.isSelected()){
                     isEasyViewTextVisible = true;
                     Ev.update(cc.getColor());
+                    RGBtoggle.setEnabled(true);
+                    Hextoggle.setEnabled(true);
+                    aHextoggle.setEnabled(true);
                 } else {
                     isEasyViewTextVisible = false;
                     Ev.update(cc.getColor());
+                    RGBtoggle.setEnabled(false);
+                    Hextoggle.setEnabled(false);
+                    aHextoggle.setEnabled(false);
                 }
-                pack();
-                CU.setResizable(false);
                 break;
-            case "Evred":
-                break;
-            case "Evgreen":
-                break;
-            case "Evblue":
+            case "EvRGB":
+                if(RGBtoggle.isSelected()){
+                    RGBv = true;
+                    Ev.update(cc.getColor());
+                } else {
+                    RGBv = false;
+                    Ev.update(cc.getColor());
+                }
                 break;
             case "Evhex":
+                if(Hextoggle.isSelected()){
+                    Hexv = true;
+                    Ev.update(cc.getColor());
+                } else {
+                    Hexv = false;
+                    Ev.update(cc.getColor());
+                }
                 break;
             case "Evahex":
+                if(aHextoggle.isSelected()){
+                    aHexv = true;
+                    Ev.update(cc.getColor());
+                } else {
+                    aHexv = false;
+                    Ev.update(cc.getColor());
+                }
                 break;
         }
     }
@@ -240,14 +272,7 @@ public class Options extends JFrame implements ActionListener {
         c.gridy = 0;
         Background.add(new Visibility(),c);
         
-        c.gridx = 1;
-        Background.add(new Logging());
-        
-        c.gridx = 0;
         c.gridy = 1;
-        Background.add(new Background(),c);
-        
-        c.gridx = 1;
         Background.add(new LookAndFeel(),c);
 
         Background.setBorder(new EmptyBorder(4,4,4,4));
@@ -257,7 +282,7 @@ public class Options extends JFrame implements ActionListener {
         setAlwaysOnTop(true);
         setSize(cc.getWidth(),cc.getHeight()+ccc.getHeight());
         pack();
-        setLocation(Ev.getLocationOnScreen().x, Ev.getLocationOnScreen().y+Ev.getHeight());
+        setLocation(EvP.x, EvP.y+EvD.height);
         setVisible(true);
         setResizable(false);
     }

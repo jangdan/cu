@@ -15,17 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import static leocarbon.cu.ColorUtility.A;
-import static leocarbon.cu.ColorUtility.AC;
-import static leocarbon.cu.ColorUtility.CU;
-import static leocarbon.cu.ColorUtility.DEyed;
-import static leocarbon.cu.ColorUtility.Ev;
-import static leocarbon.cu.ColorUtility.IC;
-import static leocarbon.cu.ColorUtility.RB;
-import static leocarbon.cu.ColorUtility.RC;
-import static leocarbon.cu.ColorUtility.SC;
-import static leocarbon.cu.ColorUtility.TC;
-import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.*;
 import org.apache.log4j.Logger;
 
 public class ActionHandler implements ActionListener {
@@ -36,17 +26,17 @@ public class ActionHandler implements ActionListener {
             if(input.isSelected()){
                 inpanel.setVisible(true);
                 
-                CU.ccmtoggle.setEnabled(true);
-                CU.cmtoggle.setEnabled(true);
-                
+                ccmtoggle.setEnabled(true);
+                cmtoggle.setEnabled(true);
+                cc.setPreviewPanel(new JPanel());
                 CU.pack();
             }
             else {
                 inpanel.setVisible(false);
-                if(CU.cmtoggle.equals(AE.getSource())){
-                    CU.ccmtoggle.setEnabled(false);
-                } else if(CU.ccmtoggle.equals(AE.getSource())){
-                    CU.cmtoggle.setEnabled(false);
+                if(cmtoggle.equals(AE.getSource())) ccmtoggle.setEnabled(false);
+                else if(ccmtoggle.equals(AE.getSource())) cmtoggle.setEnabled(false);
+                else if(evtoggle.equals(AE.getSource())){
+                    cc.setPreviewPanel(null);
                 }
                 CU.pack();
             }
@@ -62,6 +52,7 @@ public class ActionHandler implements ActionListener {
         model.addChangeListener(changeListener);
     }
     
+    boolean cmv = true, ccmv = true, evv = true;
     @Override
     public void actionPerformed(ActionEvent AE) {
         String ActionCommand = AE.getActionCommand();
@@ -92,6 +83,8 @@ public class ActionHandler implements ActionListener {
                 } else if(description[2].equals(RB.getString("edit.pAHex"))){
                     String pahex = pastefromClipboard();
                     if(pahex.startsWith("0x")) pahex = pahex.substring(2);
+                    String apahex = pahex.substring(0,2); //Do something with alpha data
+                    pahex = pahex.substring(2);
                     Color C = new Color(Integer.parseInt(pahex,16));
                     cc.setColor(C);
                     Logger.getLogger(ActionHandler.class).info("Pasted AHex Color "+pahex);
@@ -127,16 +120,6 @@ public class ActionHandler implements ActionListener {
                 } else if(description[2].equals(SC.getDisplayName())){
                     SC.scroll.setSelected(!SC.scroll.isSelected());
                     SC.actionPerformed(new ActionEvent((Object)this, ActionEvent.ACTION_PERFORMED, "hscroll"));
-                }
-            } else if(RB.getString("window").equals(description[0])){
-                if(description[2].equals(RB.getString("cm"))){
-                    
-                } else if(description[2].equals(RB.getString("ccm"))){
-                    
-                } else if(description[2].equals(RB.getString("ev"))){
-                    
-                } else if(description[2].equals(RB.getString("window.reset"))){
-                    
                 }
             } else if(RB.getString("help").equals(description[0])){
                 if(description[2].equals(RB.getString("help.a"))){

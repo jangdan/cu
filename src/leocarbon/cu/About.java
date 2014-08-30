@@ -6,11 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import static leocarbon.cu.ColorUtility.CU;
-import static leocarbon.cu.ColorUtility.Ev;
-import static leocarbon.cu.ColorUtility.Monaco18;
-import static leocarbon.cu.ColorUtility.RB;
-import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.*;
 
 public class About extends JFrame {
     JLabel story;
@@ -30,7 +26,7 @@ public class About extends JFrame {
                 + "<br><br>https://github.com/leocarbon/cu"
                 + "<br><br>http://leocarbon.github.io"
                 + "</html>");
-        story.setSize(CU.getSize().width-40, ColorUtility.Ev.getSize().height-10);
+        story.setSize(CUD.width-40, EvD.height-10);
         
         Background.add(story);
         //Background.add(license);
@@ -43,9 +39,9 @@ public class About extends JFrame {
         story.setForeground(Easyview.evr.getForeground());
         
         setAlwaysOnTop(true);
-        setSize(Ev.getWidth(),Ev.getHeight());
+        setSize(EvD);
         pack();
-        setLocation(Ev.getLocationOnScreen());
+        setLocation(EvP);
         setVisible(true);
         setResizable(false);
     }

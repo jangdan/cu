@@ -1,6 +1,7 @@
 package leocarbon.cu;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -8,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import static leocarbon.cu.ColorUtility.A;
 import static leocarbon.cu.ColorUtility.Monaco18;
+import static leocarbon.cu.Options.Hexv;
+import static leocarbon.cu.Options.RGBv;
+import static leocarbon.cu.Options.aHexv;
 import static leocarbon.cu.Options.isEasyViewTextVisible;
 
 public class Easyview extends JPanel {
@@ -41,12 +45,25 @@ public class Easyview extends JPanel {
         
         rgba = Integer.toString(input.getRGB());
         
-        if(isEasyViewTextVisible == true){
-            evr.setText("<html>Red<br>" + r + "</html>");
-            evb.setText("<html>Green<br>" + g + "</html>");
-            evg.setText("<html>Blue<br>" + b + "</html>");
-            evh.setText("<html>Hexadecimal [RGB] <br>#" + hex + "</html>");
-            evha.setText("<html>Hexadecimal [aRGB] <br>0x" + ahex + "</html>");
+        if(isEasyViewTextVisible){
+            if(RGBv){
+                evr.setText("<html>Red<br>" + r + "</html>");
+                evb.setText("<html>Green<br>" + g + "</html>");
+                evg.setText("<html>Blue<br>" + b + "</html>");
+            } else {
+                evr.setText(null);
+                evb.setText(null);
+                evg.setText(null);
+
+            } if(Hexv){
+                evh.setText("<html>Hexadecimal [RGB] <br>#" + hex + "</html>");
+            } else {
+                evh.setText(null);
+            } if(aHexv){
+                evha.setText("<html>Hexadecimal [aRGB] <br>0x" + ahex + "</html>");
+            } else {
+                evha.setText(null);
+            }
         } else {
             evr.setText(null);
             evb.setText(null);
@@ -107,44 +124,44 @@ public class Easyview extends JPanel {
         
         evr.setFont(Monaco18);
         evr.setOpaque(Opaque);
+        evr.setMinimumSize(new Dimension(239, 98));
+        evr.setPreferredSize(new Dimension(239, 98));
         c.gridx = 0;
         c.gridy = 0;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
         add(evr,c);
         
         evg.setFont(Monaco18);
         evg.setOpaque(Opaque);
+        evg.setMinimumSize(new Dimension(239, 98));
+        evg.setPreferredSize(new Dimension(239, 98));
         c.gridx = 2;
         c.gridy = 0;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
         add(evg,c);
         
         evb.setFont(Monaco18);
         evb.setOpaque(Opaque);
+        evb.setMinimumSize(new Dimension(239, 98));
+        evb.setPreferredSize(new Dimension(239, 98));
         c.gridx = 1;
         c.gridy = 0;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
         add(evb,c);
         
         evh.setFont(Monaco18);
         evh.setOpaque(Opaque);
+        evh.setMinimumSize(new Dimension(239, 98));
+        evh.setPreferredSize(new Dimension(239, 98));
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 3;
-        c.weightx = 0.75;
-        c.weighty = 0.75;
         add(evh,c);
         
         evha.setFont(Monaco18);
         evha.setOpaque(Opaque);
+        evha.setMinimumSize(new Dimension(239, 98));
+        evha.setPreferredSize(new Dimension(239, 98));
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 3;
-        c.weightx = 0.8;
-        c.weighty = 0.8;
         add(evha,c);
     }
     @Override

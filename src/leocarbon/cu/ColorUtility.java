@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
@@ -45,6 +46,9 @@ public class ColorUtility extends JFrame {
     public static ColorUtility CU;
     private static Application MacOSCU;
     
+    public static Dimension EvD, CUD;
+    public static Point EvP;
+    
     public static boolean OptionsLAFChange = false;
     
     public static About A;
@@ -52,12 +56,12 @@ public class ColorUtility extends JFrame {
     
     public static final ResourceBundle RB = ResourceBundle.getBundle("leocarbon.cu.language.locale", Locale.getDefault());
     
-    public static final InvertColor IC = new InvertColor();
-    public static final RandomColor RC = new RandomColor();
-    public static final ScrollColor SC = new ScrollColor();
-    public static final DigitalEyedropper DEyed = new DigitalEyedropper();
-    public static final AverageColor AC = new AverageColor();
-    public static final ToneColor TC = new ToneColor();
+    public static InvertColor IC;
+    public static RandomColor RC;
+    public static ScrollColor SC;
+    public static DigitalEyedropper DEyed;
+    public static AverageColor AC;
+    public static ToneColor TC;
     
     //<editor-fold defaultstate="collapsed" desc="Menu bar">
     //Menu bar
@@ -73,26 +77,21 @@ public class ColorUtility extends JFrame {
         KeyEvent.VK_O
     };
     public static String[] EditmenuitemNames = {
-        RB.getString("edit.cHex"), RB.getString("edit.cAHex"), /*RB.getString("edit.cRGB"), */RB.getString("edit.cRGBA"), "/",
-        RB.getString("edit.pHex"), RB.getString("edit.pAHex"), /*RB.getString("edit.pRGB"), */RB.getString("edit.pRGBA"), "/",
+        RB.getString("edit.cHex"), RB.getString("edit.cAHex"), RB.getString("edit.cRGB"), RB.getString("edit.cRGBA"), "/",
+        RB.getString("edit.pHex"), RB.getString("edit.pAHex"), RB.getString("edit.pRGB"), RB.getString("edit.pRGBA"), "/",
         RB.getString("edit.undo"), RB.getString("edit.redo"), "/",
         RB.getString("IC.invert"), RB.getString("IC.rinvert"), RB.getString("IC.ginvert"), RB.getString("IC.binvert"), "/",
         RB.getString("edit.b"), RB.getString("edit.d"),
     }; int[] EditmenuitemAccelerators = {
-        KeyEvent.VK_C, -1, -1, -1, KeyEvent.VK_V, -1, -1, -1, KeyEvent.VK_Z, KeyEvent.VK_Y, -1,
+        KeyEvent.VK_C, -1, -1, -1, -1, KeyEvent.VK_V, -1, -1, -1, -1, KeyEvent.VK_Z, KeyEvent.VK_Y, -1,
         KeyEvent.VK_I, -1, -1, -1, -1,
         KeyEvent.VK_B, KeyEvent.VK_D
     };
     
     public static final String[] ModulesmenuitemNames = {
-        AC.getDisplayName(), DEyed.getDisplayName(), RC.getDisplayName(), SC.getDisplayName()
+        RB.getString("AC"), RB.getString("DEyed"), RB.getString("RC"), RB.getString("SC")
     }; int[] ModulesmenuitemAccelerators = {
         KeyEvent.VK_A, KeyEvent.VK_E,KeyEvent.VK_R, KeyEvent.VK_S
-    };
-    public static String[] WindowmenuitemNames = {
-        RB.getString("cm"), RB.getString("ccm"), RB.getString("ev"), "/", RB.getString("window.reset")
-    }; int[] WindowmenuitemAccelerators = {
-        KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, -1, -1
     };
     public static final String[] HelpmenuitemNames = {
         RB.getString("help.a")
@@ -106,13 +105,13 @@ public class ColorUtility extends JFrame {
     public static Font Monaco18 = new Font("Monaco", Font.PLAIN, 18);
         
     public static JColorChooser cc;
-    public JCheckBox cmtoggle;
+    public static JCheckBox cmtoggle;
     
     public static JColorChooser ccc;
-    public JCheckBox ccmtoggle;
+    public static JCheckBox ccmtoggle;
     
     public static Easyview Ev;
-    public JCheckBox evtoggle;
+    public static JCheckBox evtoggle;
         
     public static String OSname;
     public static void getOSname(){
@@ -127,8 +126,11 @@ public class ColorUtility extends JFrame {
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Color Utility");
             System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
-        
         CU = new ColorUtility();
+        EvD = new Dimension(Ev.getSize());
+        EvP = new Point(Ev.getLocationOnScreen());
+        CUD = new Dimension(CU.getSize());
+        
     } public ColorUtility() {
         //Configure the logger (Apache log4j)
         PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/logging/log4j.properties"));
@@ -177,7 +179,6 @@ public class ColorUtility extends JFrame {
         menu = new JMenu(RB.getString("modules"));
             AverageColor a = new AverageColor(); DigitalEyedropper d = new DigitalEyedropper(); RandomColor rc = new RandomColor(); ScrollColor s = new ScrollColor();
             menubar.add(createmenu(RB.getString("modules"), ModulesmenuitemNames, ModulesmenuitemAccelerators));
-        menu = new JMenu(RB.getString("window")); menubar.add(createmenu(RB.getString("window"), WindowmenuitemNames, WindowmenuitemAccelerators));
         menu = new JMenu(RB.getString("help")); menubar.add(createmenu(RB.getString("help"), HelpmenuitemNames, HelpmenuitemAccelerators));
         
         //Make the Swatches bigger
@@ -189,6 +190,7 @@ public class ColorUtility extends JFrame {
         Border cmborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("cm"));
         final JPanel cm = new JPanel(new BorderLayout());
         cm.setBorder(cmborder);
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 1;
         c.insets = new Insets(2,4,2,4);
@@ -207,8 +209,6 @@ public class ColorUtility extends JFrame {
         //Border evborder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Easy View");
         Ev = new Easyview();
         c.gridy = 0;
-        c.weighty = 1.0;
-        c.ipady = 150;
         c.insets = new Insets(-1,-1,2,-1);
         //evpanel.setBorder(evborder);
         add(Ev,c);
@@ -221,7 +221,14 @@ public class ColorUtility extends JFrame {
             g = cc.getColor().getGreen();
             b = cc.getColor().getBlue();
         } while(r >= 92 && g >= 92 && b >= 92);
-
+        
+        IC = new InvertColor();
+        RC = new RandomColor();
+        SC = new ScrollColor();
+        DEyed = new DigitalEyedropper();
+        AC = new AverageColor();
+        TC = new ToneColor();
+    
         ccc = new JColorChooser(new Color((R.nextFloat()),R.nextFloat(),R.nextFloat()));
         AbstractColorChooserPanel[] newPanels = {
             IC, RC, SC, DEyed, AC, TC
@@ -252,6 +259,8 @@ public class ColorUtility extends JFrame {
         Logger.getLogger(ColorUtility.class.getName()).trace("Finished creating GUI");
     }
     
+    public static JMenuItem[] Visibilitymi = new JMenuItem[4];
+    private static int Visibilitymiindex = 0;
     public static JMenu createmenu(String description, String[] menuitemNames, int[] accelerator) {
         for(int a = 0; a < menuitemNames.length; ++a){
             if("/".equals(menuitemNames[a])) menu.addSeparator();
@@ -264,6 +273,9 @@ public class ColorUtility extends JFrame {
                 }
                 menuitem.addActionListener(ActionHandler.ActionListener);
                 menuitem.setActionCommand(description+".menu."+menuitemNames[a]);
+                if(menuitemNames[a].equals(RB.getString("edit.cRGB")) || menuitemNames[a].equals(RB.getString("edit.pRGB")) || menuitemNames[a].equals(RB.getString("edit.undo")) || menuitemNames[a].equals(RB.getString("edit.redo"))){
+                    menuitem.setEnabled(false);
+                }
                 menu.add(menuitem);
             }
         }

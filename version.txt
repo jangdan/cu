@@ -3,6 +3,12 @@ Color Utility
 version.txt
 
 Gamma(γ)
+0.γ5.5.0 (8.30.14)
+	- finished options window
+		- removed background color settings
+	- tidied things up
+		- removed the too-buggy-and-hard-to-make-it-work Window menu
+
 0.γ5.4.0 (8.24.14)
 	- the menu bar is now language-independent
 	- minor fixes
