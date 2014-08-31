@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import static leocarbon.cu.ColorUtility.A;
 import static leocarbon.cu.ColorUtility.Monaco18;
+import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.Options.Hexv;
 import static leocarbon.cu.Options.RGBv;
 import static leocarbon.cu.Options.aHexv;
@@ -47,20 +48,20 @@ public class Easyview extends JPanel {
         
         if(isEasyViewTextVisible){
             if(RGBv){
-                evr.setText("<html>Red<br>" + r + "</html>");
-                evb.setText("<html>Green<br>" + g + "</html>");
-                evg.setText("<html>Blue<br>" + b + "</html>");
+                evr.setText("<html>"+RB.getString("r")+ r + "</html>");
+                evb.setText("<html>"+RB.getString("g") + g + "</html>");
+                evg.setText("<html>"+RB.getString("b") + b + "</html>");
             } else {
                 evr.setText(null);
                 evb.setText(null);
                 evg.setText(null);
 
             } if(Hexv){
-                evh.setText("<html>Hexadecimal [RGB] <br>#" + hex + "</html>");
+                evh.setText("<html>"+RB.getString("h") + hex + "</html>");
             } else {
                 evh.setText(null);
             } if(aHexv){
-                evha.setText("<html>Hexadecimal [aRGB] <br>0x" + ahex + "</html>");
+                evha.setText("<html>"+RB.getString("ah") + ahex + "</html>");
             } else {
                 evha.setText(null);
             }

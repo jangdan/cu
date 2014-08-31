@@ -35,6 +35,14 @@ THE SOFTWARE.
 ---
 version.md
 ---
+
+Releases
+--------------
+######0.5.6 (8.31.14)
+* Color Utility is now released!
+	* versioning will be a little different from now; there will be only three digits for the version
+* finished up internationalization for Easyview.java and Options.java
+
 Gamma(γ)
 --------------
 ######0.γ5.5.0 (8.30.14)
