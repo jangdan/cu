@@ -22,7 +22,7 @@ public class About extends JFrame {
         story.setFont(Monaco18);
         story.setText("<html>"
                 + RB.getString("About.story.text")
-                + "<br><br>v 0.γ5.3.0"
+                + "<br><br>v 0.5.6.1"
                 + "<br><br>https://github.com/leocarbon/cu"
                 + "<br><br>http://leocarbon.github.io"
                 + "</html>");

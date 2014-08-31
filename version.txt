@@ -3,9 +3,11 @@ Color Utility
 version.txt
 
 Releases
-0.5.6 (8.31.14)
+0.5.6.1 (8.31.14)
+	- updated About.java version text
+0.5.6.0
 	- Color Utility is now released!
-		- versioning will be a little different from now; there will be only three digits for the version
+		- versioning will be a little different from now
 	- finished up internationalization for Easyview.java and Options.java
 
 Gamma(γ)
