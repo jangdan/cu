@@ -16,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.dologging;
 import org.apache.log4j.Logger;
 
 public class ScrollColor extends AbstractColorChooserPanel implements ActionListener, ChangeListener{
@@ -144,35 +145,35 @@ public class ScrollColor extends AbstractColorChooserPanel implements ActionList
             case "hscroll":
                 if(scroll.isSelected()){
                     (job = new scrolljob()).execute();
-                    Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has started");
+                    if(dologging) Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has started");
                 } else {
                     job.cancel(true);
                     job = null;
-                    Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has ended");
+                    if(dologging) Logger.getLogger(ScrollColor.class.getName()).trace("Hue fading has ended");
                 }
                 break;
             case "bscroll":
                 if(brightnessScroll.isSelected()){
                     (bjob = new bscrolljob()).execute();
                     saturationScroll.setEnabled(false);
-                    Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has started");
+                    if(dologging) Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has started");
                 } else {
                     bjob.cancel(true);
                     bjob = null;
                     saturationScroll.setEnabled(true);
-                    Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has ended");
+                    if(dologging) Logger.getLogger(ScrollColor.class.getName()).trace("Brightness fading has ended");
                 }
                 break;
             case "sscroll":
                 if(saturationScroll.isSelected()){
                     (sjob = new sscrolljob()).execute();
                     //brightnessScroll.setEnabled(false);
-                    Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has started");
+                    if(dologging) Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has started");
                 } else {
                     sjob.cancel(true);
                     sjob = null;
                     //brightnessScroll.setEnabled(true);
-                    Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has ended");
+                    if(dologging) Logger.getLogger(ScrollColor.class.getName()).trace("Saturation fading has ended");
                 }
                 break;
         }

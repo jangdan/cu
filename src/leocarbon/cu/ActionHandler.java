@@ -65,21 +65,21 @@ public class ActionHandler implements ActionListener {
             } else if(RB.getString("edit").equals(description[0])){
                 if(description[2].equals(RB.getString("edit.cHex"))){
                     copytoClipboard(Easyview.hex);
-                    Logger.getLogger(ActionHandler.class).info("Copied Hex Color "+Easyview.hex);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Copied Hex Color "+Easyview.hex);
                 } else if(description[2].equals(RB.getString("edit.cAHex"))){
                     copytoClipboard("0x"+Easyview.ahex);
-                    Logger.getLogger(ActionHandler.class).info("Copied AHex Color "+"0x"+Easyview.ahex);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Copied AHex Color "+"0x"+Easyview.ahex);
                 } else if(description[2].equals(RB.getString("edit.cRGB"))){
                     copytoClipboard(Easyview.rgb);
-                    Logger.getLogger(ActionHandler.class).info("Copied RGB Color "+Easyview.rgb);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Copied RGB Color "+Easyview.rgb);
                 } else if(description[2].equals(RB.getString("edit.cRGBA"))){
                     copytoClipboard(Easyview.rgba);
-                    Logger.getLogger(ActionHandler.class).info("Copied RGBA Color "+Easyview.rgba);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Copied RGBA Color "+Easyview.rgba);
                 } else if(description[2].equals(RB.getString("edit.pHex"))){
                     String phex = pastefromClipboard();
                     if(!phex.startsWith("#")) phex = "#".concat(phex);
                     cc.setColor(Color.decode(phex));
-                    Logger.getLogger(ActionHandler.class).info("Pasted Hex Color "+phex);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Pasted Hex Color "+phex);
                 } else if(description[2].equals(RB.getString("edit.pAHex"))){
                     String pahex = pastefromClipboard();
                     if(pahex.startsWith("0x")) pahex = pahex.substring(2);
@@ -87,13 +87,13 @@ public class ActionHandler implements ActionListener {
                     pahex = pahex.substring(2);
                     Color C = new Color(Integer.parseInt(pahex,16));
                     cc.setColor(C);
-                    Logger.getLogger(ActionHandler.class).info("Pasted AHex Color "+pahex);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Pasted AHex Color "+pahex);
                 } else if(description[2].equals(RB.getString("edit.pRGB"))){
-                    Logger.getLogger(ActionHandler.class).info("Pasted RGB Color ");
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Pasted RGB Color ");
                 } else if(description[2].equals(RB.getString("edit.pRGBA"))){
                     String prgba = pastefromClipboard();
                     cc.setColor(new Color(Integer.parseInt(prgba)));
-                    Logger.getLogger(ActionHandler.class).info("Pasted RGBA Color "+prgba);
+                    if(dologging) Logger.getLogger(ActionHandler.class).info("Pasted RGBA Color "+prgba);
                 } else if(description[2].equals(RB.getString("edit.undo"))){
                 } else if(description[2].equals(RB.getString("edit.redo"))){
                 } else if(description[2].equals(RB.getString("IC.invert"))){
@@ -138,7 +138,7 @@ public class ActionHandler implements ActionListener {
         try {
             return (String)T.getTransferData(DataFlavor.stringFlavor);
         } catch (UnsupportedFlavorException | IOException E) {
-            Logger.getLogger(ActionHandler.class.getName()).error(E);
+            if(dologging) Logger.getLogger(ActionHandler.class.getName()).error(E);
         }
         return null;
     }

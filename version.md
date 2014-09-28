@@ -38,6 +38,10 @@ version.md
 
 Releases
 --------------
+######0.5.7 (9.28.14)
+* Option for logging (no logging in default)
+* Removed version text in About.java. It’s was becoming an unnecessary hassle.
+	
 ######0.5.6.1 (8.31.14)
 * updated About.java version text
 

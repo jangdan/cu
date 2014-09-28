@@ -15,6 +15,7 @@ import javax.swing.SwingWorker;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.dologging;
 import org.apache.log4j.Logger;
 
 public class DigitalEyedropper extends AbstractColorChooserPanel implements ActionListener {
@@ -72,11 +73,11 @@ public class DigitalEyedropper extends AbstractColorChooserPanel implements Acti
     public void actionPerformed(ActionEvent AE) {
         if(deyedstart.isSelected()){
             (jp = new pickJob()).execute();
-            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper has started");
+            if(dologging) Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper has started");
         } else {
             jp.cancel(true);
             jp = null;
-            Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper has stopped");
+            if(dologging) Logger.getLogger(DigitalEyedropper.class.getName()).info("DigitalEyedropper has stopped");
         }
     }
     

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.dologging;
 import org.apache.log4j.Logger;
 
 public class ToneColor extends AbstractColorChooserPanel implements ActionListener{
@@ -63,11 +64,11 @@ public class ToneColor extends AbstractColorChooserPanel implements ActionListen
         switch(AE.getActionCommand()){
             case "lighten":
                 cc.setColor(cc.getColor().brighter());
-                Logger.getLogger(ToneColor.class.getName()).trace("Brightened color");
+                if(dologging) Logger.getLogger(ToneColor.class.getName()).trace("Brightened color");
                 break;
             case "darken":
                 cc.setColor(cc.getColor().darker());
-                Logger.getLogger(ToneColor.class.getName()).trace("Darkened color");
+                if(dologging) Logger.getLogger(ToneColor.class.getName()).trace("Darkened color");
                 break;
         }
     }

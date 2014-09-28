@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.dologging;
 import org.apache.log4j.Logger;
 
 public class InvertColor extends AbstractColorChooserPanel implements ActionListener {
@@ -93,19 +94,19 @@ public class InvertColor extends AbstractColorChooserPanel implements ActionList
         switch(AE.getActionCommand()){
             case "invert":
                 cc.setColor(new Color(255 - r, 255 - g, 255 - b));
-                Logger.getLogger(InvertColor.class.getName()).trace("Inverted Color");
+                if(dologging) Logger.getLogger(InvertColor.class.getName()).trace("Inverted Color");
                 break;
             case "rinvert":
                 cc.setColor(new Color(255 - r, g, b));
-                Logger.getLogger(InvertColor.class.getName()).trace("Inverted red channel");
+                if(dologging) Logger.getLogger(InvertColor.class.getName()).trace("Inverted red channel");
                 break;
             case "ginvert":
                 cc.setColor(new Color(r, 255 - g, b));
-                Logger.getLogger(InvertColor.class.getName()).trace("Inverted green channel");
+                if(dologging) Logger.getLogger(InvertColor.class.getName()).trace("Inverted green channel");
                 break;
             case "binvert":
                 cc.setColor(new Color(r, g, 255 - b));
-                Logger.getLogger(InvertColor.class.getName()).trace("Inverted blue channel");
+                if(dologging) Logger.getLogger(InvertColor.class.getName()).trace("Inverted blue channel");
                 break;
         }
     }

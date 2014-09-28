@@ -53,6 +53,7 @@ public class ColorUtility extends JFrame {
     
     public static About A;
     public static Options O;
+    public static boolean dologging = false;
     
     public static final ResourceBundle RB = ResourceBundle.getBundle("leocarbon.cu.language.locale", Locale.getDefault());
     
@@ -134,23 +135,27 @@ public class ColorUtility extends JFrame {
     } public ColorUtility() {
         //Configure the logger (Apache log4j)
         PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/logging/log4j.properties"));
-        Logger.getLogger(ColorUtility.class.getName()).trace("rootlogger configured");
-        
-        Logger.getLogger(ColorUtility.class.getName()).trace("Operating System: " + System.getProperty("os.name"));
-        Logger.getLogger(ColorUtility.class.getName()).trace("ColorUtility.OSname: " + OSname);
-        Logger.getLogger(ColorUtility.class.getName()).trace("Java vendor: " + System.getProperty("java.vendor"));
-        Logger.getLogger(ColorUtility.class.getName()).trace("Java vendor URL: ["+System.getProperty("java.vendor.url")+"]");
-        Logger.getLogger(ColorUtility.class.getName()).trace("Java version: " + System.getProperty("java.version"));
-        Logger.getLogger(ColorUtility.class.getName()).trace("Look and Feel: " + UIManager.getSystemLookAndFeelClassName());
+        if(dologging){
+            Logger.getLogger(ColorUtility.class.getName()).trace("rootlogger configured");
+
+            Logger.getLogger(ColorUtility.class.getName()).trace("Operating System: " + System.getProperty("os.name"));
+            Logger.getLogger(ColorUtility.class.getName()).trace("ColorUtility.OSname: " + OSname);
+            Logger.getLogger(ColorUtility.class.getName()).trace("Java vendor: " + System.getProperty("java.vendor"));
+            Logger.getLogger(ColorUtility.class.getName()).trace("Java vendor URL: ["+System.getProperty("java.vendor.url")+"]");
+            Logger.getLogger(ColorUtility.class.getName()).trace("Java version: " + System.getProperty("java.version"));
+            Logger.getLogger(ColorUtility.class.getName()).trace("Look and Feel: " + UIManager.getSystemLookAndFeelClassName());
+        }
         
         //Set Look and Feel to the operating system's native Look and Feel
         if(!OptionsLAFChange){
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                if(UIManager.getLookAndFeel().getClass().getName().equals(UIManager.getSystemLookAndFeelClassName())) Logger.getLogger(ColorUtility.class.getName()).trace("Set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
+                if(UIManager.getLookAndFeel().getClass().getName().equals(UIManager.getSystemLookAndFeelClassName()) && dologging) Logger.getLogger(ColorUtility.class.getName()).trace("Set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException E){
-                Logger.getLogger(ColorUtility.class.getName()).error(E);
-                Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
+                if(dologging){
+                    Logger.getLogger(ColorUtility.class.getName()).error(E);
+                    Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+UIManager.getSystemLookAndFeelClassName());
+                }
             }
         } else OptionsLAFChange = false;
         
@@ -160,7 +165,7 @@ public class ColorUtility extends JFrame {
             MacOSCU.addApplicationListener(new MacOSXHandler());
             MacOSCU.addPreferencesMenuItem();
             MacOSCU.setEnabledPreferencesMenu(true);
-            Logger.getLogger(ColorUtility.class.getName()).trace("Optimized GUI for Mac OS");
+            if(dologging) Logger.getLogger(ColorUtility.class.getName()).trace("Optimized GUI for Mac OS");
         }
         
         //Initialize GridBagConstraints
@@ -256,7 +261,7 @@ public class ColorUtility extends JFrame {
         setResizable(false);
         setMaximumSize(this.getSize());
         
-        Logger.getLogger(ColorUtility.class.getName()).trace("Finished creating GUI");
+        if(dologging) Logger.getLogger(ColorUtility.class.getName()).trace("Finished creating GUI");
     }
     
     public static JMenuItem[] Visibilitymi = new JMenuItem[4];
@@ -305,9 +310,9 @@ public class ColorUtility extends JFrame {
             AE.setHandled(true);
         } 
         @Override
-        public void handleOpenApplication(ApplicationEvent AE) {AE.setHandled(true);} @Override
-        public void handleOpenFile(ApplicationEvent AE) {AE.setHandled(true);} @Override
-        public void handlePrintFile(ApplicationEvent AE) {AE.setHandled(true);} @Override
-        public void handleReOpenApplication(ApplicationEvent AE) {AE.setHandled(true);}
+        public void handleOpenApplication(ApplicationEvent AE) {} @Override
+        public void handleOpenFile(ApplicationEvent AE) {} @Override
+        public void handlePrintFile(ApplicationEvent AE) {} @Override
+        public void handleReOpenApplication(ApplicationEvent AE) {}
     }
 }

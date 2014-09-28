@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import static leocarbon.cu.ColorUtility.RB;
 import static leocarbon.cu.ColorUtility.cc;
+import static leocarbon.cu.ColorUtility.dologging;
 import org.apache.log4j.Logger;
 
 public class AverageColor extends AbstractColorChooserPanel implements ActionListener {
@@ -65,14 +66,16 @@ public class AverageColor extends AbstractColorChooserPanel implements ActionLis
         chooser.setFile("*.jpg; *.bmp; *.jpeg; *.wbmp; *.png; *.gif");
         chooser.setVisible(true);
         String path = chooser.getFile();
-        if (path == null) Logger.getLogger(AverageColor.class.getName()).trace("No image was selected.");
+        if (path == null && dologging) Logger.getLogger(AverageColor.class.getName()).trace("No image was selected.");
         
         File f = new File(chooser.getDirectory()+"/"+chooser.getFile());
         try {
             img = ImageIO.read(f);
         } catch (IOException IOE) {
-            Logger.getLogger(AverageColor.class.getName()).trace(IOE);
-            Logger.getLogger(AverageColor.class.getName()).trace("ImageIO couldn't load the image.");
+            if(dologging){
+                Logger.getLogger(AverageColor.class.getName()).trace(IOE);
+                Logger.getLogger(AverageColor.class.getName()).trace("ImageIO couldn't load the image.");
+            }
         }
         return img;
     }

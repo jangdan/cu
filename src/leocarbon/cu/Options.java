@@ -88,8 +88,14 @@ public class Options extends JFrame implements ActionListener {
         c.gridx = 0; c.gridy = 2;
         add(ccmpanel,c);
     }}
+    JCheckBox logging;
     private class Logging extends JPanel { public Logging() {
-        
+        setLayout(new GridLayout(1,1));
+        logging = new JCheckBox(RB.getString("Options.l.logging"),false);
+        logging.setActionCommand("logging");
+        logging.addActionListener(Options.this);
+        add(logging);
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), RB.getString("Options.l.logging")));
     }}
     private class Background extends JPanel {
         /* Funciton by 843806(https://community.oracle.com/people/843806?customTheme=otn): https://community.oracle.com/thread/1354255?start=0&tstart=0
@@ -123,7 +129,7 @@ public class Options extends JFrame implements ActionListener {
                 CU.getContentPane().setBackground(Background1);
                 changeBackGround(cc.getParent(), Background1);
                 changeBackGround(ccc.getParent(), Background1);
-                if(!brightness.getValueIsAdjusting()) Logger.getLogger(Options.class).trace("Changed brightness to: " + brightness.getValue());
+                if(!brightness.getValueIsAdjusting() && dologging) Logger.getLogger(Options.class).trace("Changed brightness to: " + brightness.getValue());
             });
             c.gridx = 0;
             c.gridy = 1;
@@ -146,8 +152,7 @@ public class Options extends JFrame implements ActionListener {
             c.gridwidth = 2;
             c.gridheight = 1;
             //add(new JLabel("<html><font color = 'red'><b>Note: </b></font><i>This function might not work for some Look and Feels.</i></html>"),c);
-            Border brightnessBorder = BorderFactory.createTitledBorder(
-                    BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Background");
+            Border brightnessBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Background");
             setBorder(brightnessBorder);
         }
     }
@@ -202,10 +207,12 @@ public class Options extends JFrame implements ActionListener {
                 
                 if(Aboutwasopened) A = new About();
                 
-                if(UIManager.getLookAndFeel().getClass().getName().equals(ILAFs[index].getClassName())) Logger.getLogger(ColorUtility.class.getName()).info("Changed Look and Feel to: " + UIManager.getLookAndFeel());
+                if(UIManager.getLookAndFeel().getClass().getName().equals(ILAFs[index].getClassName()) && dologging) Logger.getLogger(ColorUtility.class.getName()).info("Changed Look and Feel to: " + UIManager.getLookAndFeel());
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException E){
-                Logger.getLogger(ColorUtility.class.getName()).error(E);
-                Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
+                if(dologging){
+                    Logger.getLogger(ColorUtility.class.getName()).error(E);
+                    Logger.getLogger(ColorUtility.class.getName()).trace("Could not set Look and Feel to "+ILAFs[index].getClassName());
+                }
             }
         });
     }}
@@ -257,6 +264,8 @@ public class Options extends JFrame implements ActionListener {
                     Ev.update(cc.getColor());
                 }
                 break;
+            case "logging":
+                dologging = logging.isSelected();
         }
     }
     
@@ -274,6 +283,9 @@ public class Options extends JFrame implements ActionListener {
         
         c.gridy = 1;
         Background.add(new LookAndFeel(),c);
+        
+        c.gridy = 2;
+        Background.add(new Logging(),c);
 
         Background.setBorder(new EmptyBorder(4,4,4,4));
         
