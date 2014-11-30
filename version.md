@@ -1,11 +1,10 @@
 #Color Utility
 
-####by Leocarbon
+####by Daniel Jang
 
+<https://electricmango.github.io>
 
-<https://leocarbon.github.io>
-
-<realleocarbon@gmail.com>
+<minhyukjang@gmail.com>
 
 ---
 Color Utility is **license**d under

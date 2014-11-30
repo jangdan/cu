@@ -1,4 +1,7 @@
 Color Utility
+     by Daniel Jang
+        minhyukjang@gmail.com
+https://electricmango.github.io
 
 version.txt
 
