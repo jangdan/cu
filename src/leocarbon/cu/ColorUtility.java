@@ -134,7 +134,7 @@ public class ColorUtility extends JFrame {
         
     } public ColorUtility() {
         //Configure the logger (Apache log4j)
-        PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/logging/log4j.properties"));
+        if(dologging) PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/logging/log4j.properties"));
         if(dologging){
             Logger.getLogger(ColorUtility.class.getName()).trace("rootlogger configured");
 

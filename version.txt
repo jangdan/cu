@@ -1,11 +1,9 @@
-Color Utility
-     by Daniel Jang
-        minhyukjang@gmail.com
-https://electricmango.github.io
-
 version.txt
 
 Releases
+0.5.8.0 (1.28.15)
+	- fixed logging bug where the program creates a logging file even when logging is disabled
+
 0.5.7.0 (9.28.14)
 	- Option for logging (no logging in default)
 	- Removed version text in About.java. It’s was becoming an unnecessary hassle.

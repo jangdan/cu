@@ -31,6 +31,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import static leocarbon.cu.ColorUtility.*;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class Options extends JFrame implements ActionListener {
     JCheckBox texttoggle, RGBtoggle, Hextoggle, aHextoggle;
@@ -265,6 +266,7 @@ public class Options extends JFrame implements ActionListener {
                 }
                 break;
             case "logging":
+                if(!dologging) PropertyConfigurator.configure(getClass().getResource("/leocarbon/cu/logging/log4j.properties"));
                 dologging = logging.isSelected();
         }
     }
