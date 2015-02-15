@@ -2,7 +2,6 @@
 
 ####by Daniel Jang
 
----
 readme.md
 ---
 ![screenshot!](screenshot.png)
