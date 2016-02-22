@@ -8,5 +8,5 @@
 
 
 # development
-*.logv
+*.log
 /test/*
