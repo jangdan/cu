@@ -1,13 +1,12 @@
 .DS_STORE
 
 
-
 /build/*
 /dev/*
 /dist/*
 /store/*
 
 
-#development
+# development
 *.logv
 /test/*
