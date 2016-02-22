@@ -1,1 +1,13 @@
 .DS_STORE
+
+
+
+/build/*
+/dev/*
+/dist/*
+/store/*
+
+
+#development
+*.logv
+/test/*

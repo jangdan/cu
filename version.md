@@ -1,7 +1,8 @@
 #version.md
 
-Releases
---------------
+
+###Releases
+
 ######0.5.8.0 (1.28.15)
 * fixed logging bug where the program creates a logging file even when logging is disabled
 	
@@ -17,8 +18,9 @@ Releases
 	*  versioning will be a little different from now
 * finished up internationalization for Easyview.java and Options.java
 
-Gamma(γ)
---------------
+
+###Gamma(γ)
+
 ######0.γ5.5.0 (8.30.14)
 * finished options window
 	* removed background color settings
@@ -65,8 +67,9 @@ Gamma(γ)
 	* Next update will rework the options menu.
 * Getting ready for internationalization.
 
-Beta(β)
---------------
+
+###Beta(β)
+
 ######0.β4.0.0 (?.??.14)
 * I don't know.
 
@@ -106,20 +109,19 @@ Beta(β)
 * com.leocarbonate.cu.utilities.Functions.java for miscellaneous functions
 
 * GUI structure is now JTabbedPane
-* About pane inspired by Color Mixer [https://github.com/leocarbon/cm]
+* About pane inspired by Color Mixer [url](https://github.com/jangdan/Color-Mixer)
 * Settings pane - will be updated
 
 
-Alpha(α)
---------------
+###Alpha(α)
 ######0.α1.1.1 (7.15.13)
 * Java Example added as 'components.FileChooserDemo2Project'
 * mkyong.com OSValidator added
 * ActionHandler.java
 * DigitalEyedropper extends SwingWorker
 * Added Look&Feel Editing
-* EasyView inspired by ColorMixer [https://github.com/leocarbon/cm]
-* Average Color [http://stackoverflow.com/a/12408627/2580875]
+* EasyView inspired by ColorMixer [url](https://github.com/leocarbon/cm)
+* Average Color [url](http://stackoverflow.com/a/12408627/2580875)
 
 ######0.α1.1.0
 * Basic Color Chooser with JColorChooser
