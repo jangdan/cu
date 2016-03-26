@@ -1,7 +1,7 @@
 #version.md
 
 
-###Releases
+###releases
 
 ######0.5.8.0 (1.28.15)
 * fixed logging bug where the program creates a logging file even when logging is disabled
@@ -19,7 +19,7 @@
 * finished up internationalization for Easyview.java and Options.java
 
 
-###Gamma(γ)
+###gamma(γ)
 
 ######0.γ5.5.0 (8.30.14)
 * finished options window
@@ -68,7 +68,7 @@
 * Getting ready for internationalization.
 
 
-###Beta(β)
+###beta(β)
 
 ######0.β4.0.0 (?.??.14)
 * I don't know.
@@ -113,7 +113,7 @@
 * Settings pane - will be updated
 
 
-###Alpha(α)
+###alpha(α)
 ######0.α1.1.1 (7.15.13)
 * Java Example added as 'components.FileChooserDemo2Project'
 * mkyong.com OSValidator added
